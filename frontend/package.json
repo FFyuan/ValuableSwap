@@ -1,18 +1,15 @@
 {
-  "name": "Angular2-Hangman",
-  "version": "0.0.0",
-  "description": "Angular 2 Tech Talk, presented by the Rose-Hulman Hackers",
+  "name": "angular2-quickstart",
+  "version": "1.0.0",
   "scripts": {
-    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
+    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
     "lite": "lite-server",
     "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings"
   },
-  "keywords": [],
-  "author": "Tyler Rockwood <rockwotj@rose-hulman.edu>",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "angular2": "2.0.0-beta.15",
     "systemjs": "0.19.26",
@@ -23,10 +20,8 @@
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
-    "http-server": "^0.9.0",
     "lite-server": "^2.2.0",
     "typescript": "^1.8.10",
     "typings":"^0.7.12"
-  },
-  "repository": {  }
+  }
 }
