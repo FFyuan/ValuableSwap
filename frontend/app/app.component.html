@@ -1,7 +1,11 @@
-    <h1>{{title}}</h1>
-    <nav>
-        <a [routerLink]="['home']">Home</a>
-        <a [routerLink]="['']"></a>
+<div class="container-fluid">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a [routerLink]="['Home']">Home</a></li>
+                <li><a>Log In</a></li>
+            </ul>
+        </div>
     </nav>
     <router-outlet></router-outlet>
-
+</div>
