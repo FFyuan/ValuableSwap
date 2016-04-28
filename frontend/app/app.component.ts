@@ -1,7 +1,26 @@
 import {Component} from 'angular2/core';
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {HomeComponent} from './home.component';
 
 @Component({
     selector: 'my-app',
-    template: '<h1>My First Angular 2 App</h1>'
+    templateUrl: 'app/app.component.html',
+    providers : [ROUTER_PROVIDERS],
+    directives : [ROUTER_DIRECTIVES]
 })
-export class AppComponent { }
+
+@RouteConfig([
+    {
+        path : '/home',
+        name : 'Home',
+        component : HomeComponent,
+        useAsDefault : true
+    }
+])
+
+export class AppComponent {
+    title = 'Valuable Swap';
+
+
+}
+
