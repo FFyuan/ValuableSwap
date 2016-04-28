@@ -4,14 +4,15 @@
  */
 
 import {Component} from 'angular2/core';
-
+import {MedialistComponent} from './medialist.component';
 
 @Component({
     selector : 'home',
 
-    templateUrl : 'app/home.component.html'
+    templateUrl : 'app/home.component.html',
+    directives : [MedialistComponent]
 })
 
 export class HomeComponent{
-    title = "Welcome to Valuable Swap";
+    title = "Welcome to ValuableSwap";
 }
