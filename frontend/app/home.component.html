@@ -3,17 +3,17 @@
     <h2 class = "text-center">{{title}}</h2>
     </div>
     <div class="row" style="">
-        <h4 style="text-align: center">Placeholder for searchbar</h4>
+        <my-searchbox></my-searchbox>
     </div>
     <div class="row" style="height: 20px">
 
     </div>
 <div class="row">
     <div class = "col-md-2">
-       <p>Menu Here</p>
+        <my-menu [selectedCategory]="selectedCategory"></my-menu>
     </div>
-    <div class = "col-md-8">
-        <media-list></media-list>
+    <div class = "col-md-10">
+        <media-list [category]="selectedCategory"></media-list>
     </div>
 </div>
 </div>

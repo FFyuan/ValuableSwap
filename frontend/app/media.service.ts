@@ -13,7 +13,7 @@ export class MediaService{
     }
     getMediasUnderCategory(category : string){
         return Promise.resolve(MEDIAS).then(
-            medias => medias.filter(media => media.category === category)
+            medias => medias.filter(media => media.category === category || category === "All")
         )
     }
 }
