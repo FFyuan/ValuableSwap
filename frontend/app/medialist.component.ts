@@ -27,7 +27,7 @@ export class MedialistComponent{
     constructor(private _mediaService : MediaService){};
 
     getMedias(){
-        this._mediaService.getMediasUnderCategory(this.category).then(medias => this.medias = medias);
+        this._mediaService.getMediasUnderCategory(this.category).subscribe(medias => this.medias = medias);
     }
 
     ngOnInit(){

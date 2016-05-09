@@ -8,6 +8,7 @@ import {MedialistComponent} from './medialist.component';
 import {MenuComponent} from './menu.component';
 import {SearchboxComponent} from './searchbox.component';
 import {RouteParams} from 'angular2/router';
+import {Http} from 'angular2/http';
 
 @Component({
     selector : 'home',

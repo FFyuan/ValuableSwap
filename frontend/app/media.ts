@@ -7,5 +7,6 @@ export class Media{
     genre : string;
     condition : string;
     category : string;
-    avaibility : boolean;
+    available : boolean;
+    name : string;
 }

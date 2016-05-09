@@ -3,18 +3,29 @@
  * Created by Yuan on 4/28/16.
  */
 import {Injectable} from 'angular2/core';
+import {Http, Response} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
 import {Media} from './media';
-import {MEDIAS} from './mock-medias';
 
 @Injectable()
 export class MediaService{
-    getMedias(){
-        return Promise.resolve(MEDIAS);
-    }
-    getMediasUnderCategory(category : string){
-        return Promise.resolve(MEDIAS).then(
-            medias => medias.filter(media => media.category === category || category === "All")
-        )
-    }
-}
+    constructor(private http: Http){}
 
+    private mediaUrl = 'http://localhost:5000/media';
+
+
+    getMediasUnderCategory(category : string) : Observable<Media[]>{
+        return this.http.get(this.mediaUrl)
+            .map(this.extractData);
+    }
+
+    private extractData(res: Response) {
+        if (res.status < 200 || res.status >= 300) {
+            throw new Error('Bad response status: ' + res.status);
+        }
+        let body = res.json();
+        console.log(body);
+        return body || { };
+    }
+
+}
