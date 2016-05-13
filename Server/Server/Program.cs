@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -14,12 +14,12 @@ namespace Server
     {
         static void Main(string[] args)
         {   
-            HttpListener listener = null;
+            HttpListener listener = null;i
             try
             {   
                 listener = new HttpListener();
                 listener.Prefixes.Add("http://localhost:1234/server/");
-                listener.Start();
+                listener.Start()
                 while(true)
                 {
                     Console.WriteLine("waiting for connection");

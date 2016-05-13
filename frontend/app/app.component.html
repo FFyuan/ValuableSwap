@@ -9,7 +9,9 @@
                 <li><a >Histroy</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a>Log In</a></li>
+                <li><a *ngIf="user === undefined" [routerLink]="['Login']">Log in</a></li>
+                <li *ngIf="!!user"><a>Welcome {{user}}</a></li>
+                <li *ngIf="!!user" (click)="onSignedOut()"><a (click)="onSignedOut()">Sign out</a></li>
             </ul>
         </div>
     </nav>

@@ -1,0 +1,8 @@
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/obj/Debug/.NETFramework,Version=v4.5.2.AssemblyAttribute.cs
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/bin/Debug/Server.exe.config
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/bin/Debug/Server.exe.mdb
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/bin/Debug/Server.pdb
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/bin/Debug/Server.exe
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/obj/Debug/Server.exe
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/obj/Debug/Server.exe.mdb
+/Users/Yuan/Documents/Git/ValuableSwap/Server/Server/obj/Debug/Server.pdb
