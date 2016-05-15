@@ -8,7 +8,7 @@ import {Media} from './media';
 
 @Component({
     selector : 'media',
-    template : `<div class="container-fluid" style="float: left; width: 20%">
+    template : `<div class="container-fluid" style="float: left; width: 300px">
                 <ul class ="well" style="list-style-type: none; ">
                     <li class="list-item"><img src="http://www.hdums.com/img/swap.png" class="img-rounded" style="width: 100%"> </li>
                     <li class = "list-item">Category: {{media.category}}</li>

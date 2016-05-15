@@ -16,7 +16,13 @@ export class MediaService{
 
     getMediasUnderCategory(category : string) : Observable<Media[]>{
         return this.http.get(this.mediaUrl)
-            .map(this.extractData);
+            .map(res => res.json().filter(media => {
+                if(category!='All'){
+                    return media.category.includes(category);
+                }else{
+                    return true;
+                }}
+            ));
     }
 
     private extractData(res: Response) {
@@ -25,7 +31,9 @@ export class MediaService{
         }
         let body = res.json();
         console.log(body);
-        return body || { };
+        var result = body;
+        console.log(result);
+        return result || { };
     }
 
 }

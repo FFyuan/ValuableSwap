@@ -16,11 +16,11 @@ import {Authentication} from './authentication';
     <h3>Please Login</h3>
     <form [ngFormModel]="form" (submit)="onSubmit(form.value)">
       <div *ngIf="error">Your username and password doesn't match</div>
-      <div>
+      <div class="form-group">
         <label for="username">Username</label>
         <input type="text" ngControl="username">
       </div>
-      <div>
+      <div class="form-group">
         <label for="password">Password</label>
         <input type="password" ngControl="password">
       </div>
