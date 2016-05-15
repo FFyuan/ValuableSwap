@@ -6,10 +6,10 @@
                 <li><a >Account</a></li>
                 <li><a >Wishlist</a></li>
                 <li><a >Friendlist</a></li>
-                <li><a >Histroy</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a *ngIf="user === undefined" [routerLink]="['Login']">Log in</a></li>
+                <li><a *ngIf="user === undefined" [routerLink]="['Register']">Sign Up</a></li>
+                <li><a *ngIf="user === undefined" [routerLink]="['Login']">Log In</a></li>
                 <li *ngIf="!!user"><a>Welcome {{user}}</a></li>
                 <li *ngIf="!!user" (click)="onSignedOut()"><a (click)="onSignedOut()">Sign out</a></li>
             </ul>

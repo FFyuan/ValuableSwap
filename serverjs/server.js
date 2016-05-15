@@ -23,7 +23,22 @@ http.createServer(function(request, response){
 			}
 		});
 	}else if(url == '/auth/logout'){
-	}else{
+
+	}else if(url == '/auth/register'){
+		registration(request, function(err, user){
+			if (user) {
+				var result = JSON.stringify(user);
+				response.writeHead(200, {
+					'Content-Type : 'application/json'
+				});
+				console.log('User:', user.token, ' registered');
+				response.end(result)
+			} else {
+				response.end();
+			}
+		});
+
+	} else{
 		response.write("404 NOT FOUND");
 		response.end();
 	}
@@ -49,6 +64,36 @@ function getMedia(callback){
 		    // ... connect error checks
 	});
 };
+
+function registration(request, callback){
+		var sql = require('mssql');
+		var body = "";
+		request.on('data', function(chunk){
+			body += chunk.toString()
+		});
+		request.on('end', function(){
+			var pbody
+			if (body != "") {
+				pbody = JSON.parse(body, function(k,v){ return v;});
+				console.log("Name:", pbody.name, " is wanting to register");
+				sql.connect("mssql: //reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+					console.log("Connected to database");
+					new sql.Request().input('Name', pBody.name)
+							 .input('Email', pBody.email)
+							 .input('Password', pBody.password)
+							 .input('UserName', pBody.username)
+							 .execute('addUser').then(function(result) {
+							}).catch(function(err) {
+								console.log(err);
+							});
+			}.catch(function(err){
+			});
+		} else {
+			callback(1, {});
+		}
+	});
+}
+					
 
 function login(request,callback){
 	var sql = require('mssql');
