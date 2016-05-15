@@ -1,5 +1,4 @@
 var http = require("http");
-var querystring = require("querystring");
 
 http.createServer(function(request, response){
 	var url = request.url;
@@ -60,7 +59,7 @@ function getMedia(callback){
 		}).catch(function(err) {
 			console.log('Media fetch failed');	
 			console.log(err);
-		});
+  		});
 	}).catch(function(err) {
 		    // ... connect error checks
 	});
