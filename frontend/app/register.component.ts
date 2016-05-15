@@ -27,11 +27,8 @@ import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} from 'angu
         <input type="text" ngControl="Email">
       </div>
       <div>
-        <label for=""
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input type="password" ngControl="password">
+        <label for="Password">Password</label>
+        <input type="password" ngControl="Password">
       </div>
       <div>
         <label for="confirm password">Confirm Password</label>

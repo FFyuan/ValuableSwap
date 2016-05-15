@@ -25,12 +25,12 @@ http.createServer(function(request, response){
 		});
 	}else if(url == '/auth/logout'){
 
-	}else if(url == '/auth/register'){
+	} else if(url == '/auth/register'){
 		registration(request, function(err, user){
 			if (user) {
 				var result = JSON.stringify(user);
 				response.writeHead(200, {
-					'Content-Type : 'application/json'
+					'Content-Type' : 'application/json'
 				});
 				console.log('User:', user.token, ' registered');
 				response.end(result)
@@ -73,27 +73,31 @@ function registration(request, callback){
 			body += chunk.toString()
 		});
 		request.on('end', function(){
-			var pbody
+			var pBody
 			if (body != "") {
-				pbody = JSON.parse(body, function(k,v){ return v;});
-				console.log("Name:", pbody.name, " is wanting to register");
-				sql.connect("mssql: //reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+				pBody = JSON.parse(body, function(k,v){ return v;});
+				console.log("Name:", pBody.UserName, " is wanting to register");
+				sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
 					console.log("Connected to database");
-					new sql.Request().input('Name', pBody.name)
-							 .input('Email', pBody.email)
-							 .input('Password', pBody.password)
-							 .input('UserName', pBody.username)
+					new sql.Request().input('Name', pBody.Name)
+							 .input('Email', pBody.Email)
+							 .input('Password', pBody.Password)
+							 .input('UserName', pBody.UserName)
 							 .execute('addUser').then(function(result) {
+								console.log(result);
+								callback(0);
 							}).catch(function(err) {
 								console.log(err);
 							});
-			}.catch(function(err){
+			}).catch(function(err){
+				console.log(err)
 			});
 		} else {
 			callback(1, {});
 		}
 	});
 }
+
 					
 
 function login(request,callback){
