@@ -15,8 +15,8 @@ export class MediaService{
 
 
     getMediasUnderCategory(category : string) : Observable<Media[]>{
-        return this.http.get(this.mediaUrl)
-            .map(this.extractData);
+        return this.http.get(this.mediaUrl).map(this.extractData);
+
     }
 
     private extractData(res: Response) {

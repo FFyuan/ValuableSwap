@@ -5,6 +5,7 @@ import {LoginComponent} from './login.component';
 import {MediaService} from './media.service';
 import {Authentication} from './authentication';
 import {userLoggined} from './userLoggined.function';
+import {RegisterComponent} from "./register.component";
 
 
 @Component({
@@ -24,6 +25,10 @@ import {userLoggined} from './userLoggined.function';
         path : '/login',
         name : 'Login',
         component : LoginComponent
+    },{
+        path : '/register',
+        name : 'Register',
+        component : RegisterComponent
     }
 ])
 

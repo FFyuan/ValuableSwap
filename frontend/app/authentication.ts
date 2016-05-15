@@ -35,4 +35,21 @@ export class Authentication {
         localStorage.removeItem('token');
         return Observable.of(true);
     }
+    register(UserName: String, Name: String, Email: String, Password: String) {
+        return this.http.post(this.serverUrl + '/register', JSON.stringify({
+            UserName: UserName,
+            Name: Name,
+            Email: Email,
+            Password: Password
+        }), {
+            headers: new Headers({'Content-Type': 'application/json'})
+        }).map((res: any)=> {
+            let data = res.json();
+            this.token = data.token;
+            localStorage.setItem('token', this.token);
+            console.log(this.token);
+        });
+    }
+
+
 }
