@@ -56,7 +56,6 @@ export class RegisterComponent {
                 this.auth.register(value.UserName, value.Name, value.Email, value.Password)
                     .subscribe(
                         (token: any) => {
-                                window.location.reload();
                                 this.router.navigate(['Login']);
                         },
                         () => { this.error = true;

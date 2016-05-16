@@ -23,7 +23,7 @@ export class MediaService{
                     return true;
                 }}
             ));
- p   }
+    }
 
     private extractData(res: Response) {
         if (res.status < 200 || res.status >= 300) {
