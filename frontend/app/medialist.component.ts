@@ -21,6 +21,8 @@ import {MediaComponent} from './media.component';
 
 export class MedialistComponent{
     @Input() category : string;
+    @Input() ownBy : string;
+    @Input() wantBy : string;
 
     medias : Media[];
 
@@ -30,7 +32,21 @@ export class MedialistComponent{
         this._mediaService.getMediasUnderCategory(this.category).subscribe(medias => this.medias = medias);
     }
 
+    getMediasOwnBy(){
+        this._mediaService.getMediasOwnBy(this.ownBy).subscribe(medias => this.medias = medias);
+    }
+
+    getMediasWantBy(){
+        this._mediaService.getMediasWantBy(this.ownBy).subscribe(medias => this.medias = medias);
+    }
     ngOnInit(){
-        this.getMedias();
+        if(!this.ownBy && !this.wantBy) {
+            this.getMedias();
+        }else
+        if(this.ownBy){
+            this.getMediasOwnBy();
+        }else{
+            this.getMediasWantBy();
+        }
     }
 }

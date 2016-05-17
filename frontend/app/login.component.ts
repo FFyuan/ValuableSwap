@@ -3,7 +3,7 @@
  * Created by Yuan on 5/12/16.
  */
 
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} from 'angular2/common';
 import {Router} from 'angular2/router';
 import {Authentication} from './authentication';
@@ -22,7 +22,7 @@ import {Authentication} from './authentication';
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" ngControl="password">
+        <input type="password" ngControl="password" >
       </div>
       <div class="form-group">
         <button type="submit" [disabled]="!form.valid">Login</button>
@@ -42,12 +42,18 @@ export class LoginComponent {
         });
     }
 
+    ngOnInit(){
+        if(localStorage.getItem('token')){
+            this.router.navigate(['Home']);
+        }
+    }
+
     onSubmit(value: any) {
         this.auth.login(value.username, value.password)
             .subscribe(
                 (token: any) => {
-                        window.location.reload();
                         this.router.navigate(['Home']);
+                        window.location.reload();
                 },
                 () => { this.error = true;
                         console.log("Loggin Failed");}

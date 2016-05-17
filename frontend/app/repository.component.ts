@@ -1,17 +1,17 @@
 /**
  *
- * Created by Yuan on 5/14/16.
+ * Created by Yuan on 5/16/16.
  */
 import {Component, OnInit} from 'angular2/core';
 import {MedialistComponent} from './medialist.component';
 
 @Component({
-    selector : 'wishlist',
+    selector : 'repository',
 
     template : `
                 <div class="well">
                     <h3>{{title}}</h3>
-                    <media-list [wantBy]="user"> </media-list>
+                    <media-list [ownBy]="user"> </media-list>
                 </div>
 
     `,
@@ -19,9 +19,9 @@ import {MedialistComponent} from './medialist.component';
     directives : [MedialistComponent]
 })
 
-export class WishlistComponent{
+export class RepositoryComponent{
     user : string;
-    title = "My Wishlist";
+    title = "My Items";
 
     ngOnInit(){
         this.user = localStorage.getItem('token');

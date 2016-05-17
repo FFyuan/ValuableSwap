@@ -11,11 +11,11 @@ import {Media} from './media';
 export class MediaService{
     constructor(private http: Http){}
 
-    private mediaUrl = 'http://localhost:5000/media';
+    private mediaUrl = 'http://localhost:5000/';
 
 
     getMediasUnderCategory(category : string) : Observable<Media[]>{
-        return this.http.get(this.mediaUrl)
+        return this.http.get(this.mediaUrl + 'media')
             .map(res => res.json().filter(media => {
                 if(category!='All'){
                     return media.category.includes(category);
@@ -25,15 +25,15 @@ export class MediaService{
             ));
     }
 
-    private extractData(res: Response) {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Bad response status: ' + res.status);
-        }
-        let body = res.json();
-        console.log(body);
-        var result = body;
-        console.log(result);
-        return result || { };
+    getMediasOwnBy(user : string) : Observable<Media[]>{
+        return this.http.get(this.mediaUrl + 'has')
+            .map(res => res.json());
+    }
+
+    getMediasWantBy(user : string) : Observable<Media[]>{
+        return this.http.get(this.mediaUrl + 'want')
+            .map(res => res.json());
+
     }
 
 }

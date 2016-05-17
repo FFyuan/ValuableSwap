@@ -6,7 +6,8 @@ import {MediaService} from './media.service';
 import {Authentication} from './authentication';
 import {userLoggined} from './userLoggined.function';
 import {RegisterComponent} from "./register.component";
-
+import {WishlistComponent} from './wishlist.component';
+import {RepositoryComponent} from './repository.component';
 
 @Component({
     selector: 'my-app',
@@ -29,6 +30,14 @@ import {RegisterComponent} from "./register.component";
         path : '/register',
         name : 'Register',
         component : RegisterComponent
+    },{
+        path : '/wishlist',
+        name : 'Wishlist',
+        component : WishlistComponent
+    },{
+        path : '/repository',
+        name : 'Repository',
+        component : RepositoryComponent
     }
 ])
 
