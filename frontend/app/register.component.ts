@@ -11,46 +11,85 @@ import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Validators, Control, Cont
         directives: [FORM_DIRECTIVES, CORE_DIRECTIVES],
         template :    `
     <div class = "well" >
-    <h3>Enter your information here</h3>
-    <form [ngFormModel]="form" (submit)="onSubmit(form.value)">
-      <div *ngIf="error">Your passwords don't match</div>
-      <div>
-        <label for="UserName">UserName</label>
-        <input type="text" ngControl="UserName">
-        <div *ngIf="!UserName.valid && UserName.touched">
-            UserName is Invalid
+    <div class="col-md-offset-2 col-md-10" style="padding-bottom: 10px">
+        <h3>Enter your information here</h3>
+    </div>
+    <form class="form-horizontal" role="form" [ngFormModel]="form" (submit)="onSubmit(form.value)">
+
+      <div class="form-group">
+        <label class="control-label col-md-2" for="UserName">UserName:</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" ngControl="UserName">
+        </div>
+
+        <div class="row" *ngIf="!UserName.valid && UserName.touched">
+            <div class="col-md-offset-2 col-md-8">
+                <p class="bg-danger">UserName is Invalid</p>
+            </div>
         </div>
       </div>
-      <div>
-        <label for="Name">Name</label>
-        <input type="text" ngControl="Name">
-        <div *ngIf="!Name.valid && Name.touched">
+
+      <div class="form-group">
+        <label class="control-label col-md-2" for="Name">Name:</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" ngControl="Name">
+        </div>
+
+        <div class="row" *ngIf="!Name.valid && Name.touched">
+            <div class="col-md-offset-2 col-md-8">
+            <p class="bg-danger">
             Name is Invalid
+            </p>
+            </div>
         </div>
       </div>
-      <div> 
-        <label for="Email">Email</label>
-        <input type="text" ngControl="Email">
-        <div *ngIf="!Email.valid && Email.touched">
+
+      <div class="form-group">
+        <label class="control-label col-md-2" for="Email">Email:</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" ngControl="Email">
+        </div>
+
+        <div class="row" *ngIf="!Email.valid && Email.touched">
+            <div class="col-md-offset-2 col-md-8">
+            <p class="bg-danger">
             Email is Invalid
+            </p>
+            </div>
         </div>
       </div>
-      <div>
-        <label for="Password">Password</label>
-        <input type="password" ngControl="Password" >
-        <div *ngIf="!Password.valid && Password.touched">
+
+      <div class="form-group">
+        <label class="control-label col-md-2" for="Password">Password:</label>
+        <div class="col-md-6">
+        <input class="form-control" type="password" ngControl="Password" >
+        </div>
+        <div class="row" *ngIf="!Password.valid && Password.touched">
+            <div class="col-md-offset-2 col-md-8">
+            <p class="bg-danger">
             Password is Invalid
+            </p>
+            </div>
         </div>
       </div>
-      <div>
-        <label for="CPassword">Confirm Password</label>
-        <input type="password" ngControl="CPassword">
-        <div *ngIf="form.errors.notMatching">
+
+      <div class="form-group">
+        <label class="control-label col-md-2" for="CPassword">Confirm Password:</label>
+        <div class="col-md-6">
+        <input class="form-control" type="password" ngControl="CPassword">
+        </div>
+        <div class="row" *ngIf="form.errors.notMatching && CPassword.touched">
+            <div class="col-md-offset-2 col-md-8">
+            <p class="bg-danger">
             Password not match
+            </p>
+            </div>
         </div>
       </div>
       <div class="form-group">
-        <button type="submit" [disabled]="!form.errors.valid">Register</button>
+        <div class="col-md-offset-2 col-md-10">
+        <button class="btn btn-default" type="submit" [disabled]="!form.errors.valid">Register</button>
+        </div>
       </div>
     </form>
     </div>

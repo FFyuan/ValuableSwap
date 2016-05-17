@@ -14,15 +14,25 @@ export class MediaService{
     private mediaUrl = 'http://localhost:5000/';
 
 
-    getMediasUnderCategory(category : string) : Observable<Media[]>{
+    getMediasUnderCategory(category : string, keyword : string) : Observable<Media[]>{
+        if (keyword === undefined) keyword =  '';
         return this.http.get(this.mediaUrl + 'media')
-            .map(res => res.json().filter(media => {
-                if(category!='All'){
-                    return media.category.includes(category);
-                }else{
-                    return true;
-                }}
-            ));
+            .map(res => {
+                console.log(res.json());
+                return res.json().filter(media => {
+                    if(category!='All'){
+                        if(!media.category.includes(category)){
+                            return false;
+                        }else {
+                            return media.name.toLowerCase().includes(keyword) || media.genre.toLowerCase().includes(keyword);
+                        }
+                    }else{
+                        return media.category.toLowerCase().includes(keyword) ||
+                            media.name.toLowerCase().includes(keyword) ||
+                            media.genre.toLowerCase().includes(keyword);
+                    }}
+                )
+            });
     }
 
     getMediasOwnBy(user : string) : Observable<Media[]>{

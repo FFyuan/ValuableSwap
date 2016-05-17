@@ -3,7 +3,17 @@
     <h2 class = "text-center">{{title}}</h2>
     </div>
     <div class="row" style="">
-        <my-searchbox></my-searchbox>
+        <div class = "col-md-3"></div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for..." [(ngModel)]="keyword">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" >Go!</button>
+
+                         </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+        <div class = "col-md-3"></div>
     </div>
     <div class="row" style="height: 20px">
 
@@ -13,7 +23,7 @@
         <my-menu [selectedCategory]="selectedCategory"></my-menu>
     </div>
     <div class = "col-md-10">
-        <media-list [category]="selectedCategory"></media-list>
+        <media-list [category]="selectedCategory" [keyword]="keyword"></media-list>
     </div>
 </div>
 </div>

@@ -3,7 +3,7 @@
  * Created by Yuan on 4/28/16.
  */
 
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnInit, OnChanges, SimpleChange} from 'angular2/core';
 import {MediaService} from './media.service';
 import {Media} from './media';
 import {MediaComponent} from './media.component';
@@ -23,13 +23,14 @@ export class MedialistComponent{
     @Input() category : string;
     @Input() ownBy : string;
     @Input() wantBy : string;
+    @Input() keyword : string;
 
     medias : Media[];
 
     constructor(private _mediaService : MediaService){};
 
     getMedias(){
-        this._mediaService.getMediasUnderCategory(this.category).subscribe(medias => this.medias = medias);
+        this._mediaService.getMediasUnderCategory(this.category, this.keyword).subscribe(medias => this.medias = medias);
     }
 
     getMediasOwnBy(){
@@ -39,6 +40,7 @@ export class MedialistComponent{
     getMediasWantBy(){
         this._mediaService.getMediasWantBy(this.ownBy).subscribe(medias => this.medias = medias);
     }
+
     ngOnInit(){
         if(!this.ownBy && !this.wantBy) {
             this.getMedias();
@@ -47,6 +49,13 @@ export class MedialistComponent{
             this.getMediasOwnBy();
         }else{
             this.getMediasWantBy();
+        }
+    }
+
+    ngOnChanges(changes: {[propKey:string]: SimpleChange}){
+        if(changes['keyword']) {
+            let key = changes['keyword'].currentValue;
+            this.getMedias();
         }
     }
 }
