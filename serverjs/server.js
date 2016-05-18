@@ -126,6 +126,7 @@ function getMediaById(request, callback){
 		}
 	});
 }
+
 function postMedia(request, callback){
 	var sql = require('mssql');
 	var body = "";
@@ -164,15 +165,12 @@ function postMedia(request, callback){
 	});
 }
 
+
 function getHasMedia(request, callback){
 	var json = JSON.stringify([{name : 'test has',category : 'Game'}]);
 	callback(null, json);
 }
 
-function getWantMedia(request, callback){
-	var json = JSON.stringify([{name : 'test want',category : 'Game'}]);
-	callback(null, json);
-}
 function registration(request, callback){
 	var sql = require('mssql');
 	var body = "";
@@ -191,7 +189,7 @@ function registration(request, callback){
 						 .input('Password', pBody.Password)
 						 .input('UserName', pBody.UserName)
 						 .execute('addUser').then(function(result) {
-							console.log("User: ",pBody.UserName, "Registration Successful in Databse!");
+							console.log("User: ",pBody.UserName, "Registration Successful in Database!");
 							callback(0);
 						}).catch(function(err) {
 							console.log(err);
