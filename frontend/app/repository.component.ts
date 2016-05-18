@@ -47,7 +47,8 @@ export class RepositoryComponent{
     }
 
    onSubmit(value : any){
-
         console.log('Submitting : ', value);
+        this._mediaService.postMedia(value, this.category, this.user);
+        window.location.reload();
     }
 }
