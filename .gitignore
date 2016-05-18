@@ -8,3 +8,14 @@ link-checker-results.txt
 *.js.map
 _test-output
 _temp
+*.suo
+npm-debug.log
+*.suo
+Server/.vs/Server/v14/.suo
+*.js
+serverjs/server.js
+*.txt
+serverjs/server.js
+*.suo
+Server/Server/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+Server/Server/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
