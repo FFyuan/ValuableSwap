@@ -47,7 +47,14 @@ export class RepositoryComponent{
     }
 
    onSubmit(value : any){
-        console.log('Submitting : ', value);
-        this._mediaService.postMedia(value, this.category, this.user);
+        this._mediaService.postMedia(value, this.category, this.user).subscribe(
+            (res: any) => {
+                if(res.success){
+                    window.location.reload();
+                }else{
+                    console.log("Adding Failed");
+                }
+            }
+        ) ;
     }
 }

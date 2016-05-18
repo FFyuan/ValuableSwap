@@ -79,7 +79,7 @@ export class MediaService{
     }
 
     postMedia(value: any, category: string, user: string) {
-        this.http.post(this.mediaUrl + 'post', JSON.stringify({
+        return this.http.post(this.mediaUrl + 'post', JSON.stringify({
             UserName : user,
             Name : value.name,
             Genre : value.genre,
@@ -90,6 +90,22 @@ export class MediaService{
             Type_of_Media : category
         }), {
             headers: new Headers({'Content-Type' : 'application/json'})
-        }).map(res => res.json())
+        }).map(res => {
+            console.log(res);
+            return res.json();
+        })
+    }
+
+    addWishlist(media : Media, username : string){
+        return this.http.post(this.mediaUrl + 'addWishlist', JSON.stringify({
+            UserName : username,
+            Media_Id : media.Media_id
+        }),{
+            headers: new Headers({
+                'Content-Type' : 'application/json'
+            })}).map(res => {
+                console.log(res);
+                return res.json();
+            })
     }
 }
