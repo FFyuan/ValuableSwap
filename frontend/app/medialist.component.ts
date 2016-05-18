@@ -38,7 +38,7 @@ export class MedialistComponent{
     }
 
     getMediasWantBy(){
-        this._mediaService.getMediasWantBy(this.ownBy).subscribe(medias => this.medias = medias);
+        this._mediaService.getMediasWantBy(this.wantBy).subscribe(medias => this.medias = medias);
     }
 
     ngOnInit(){
