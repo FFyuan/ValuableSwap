@@ -8,6 +8,7 @@ import {userLoggined} from './userLoggined.function';
 import {RegisterComponent} from "./register.component";
 import {WishlistComponent} from './wishlist.component';
 import {RepositoryComponent} from './repository.component';
+import {MediaDetailComponent} from './mediadetails.component';
 
 @Component({
     selector: 'my-app',
@@ -38,6 +39,10 @@ import {RepositoryComponent} from './repository.component';
         path : '/repository',
         name : 'Repository',
         component : RepositoryComponent
+    },{
+        path : '/mediadetails:id',
+        name : 'MediaDetails',
+        component : MediaDetailComponent
     }
 ])
 

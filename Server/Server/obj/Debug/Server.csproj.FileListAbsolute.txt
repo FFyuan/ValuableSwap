@@ -4,3 +4,6 @@ D:\visual studio 2015\Projects\Server\Server\bin\Debug\Server.pdb
 D:\visual studio 2015\Projects\Server\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
 D:\visual studio 2015\Projects\Server\Server\obj\Debug\Server.exe
 D:\visual studio 2015\Projects\Server\Server\obj\Debug\Server.pdb
+D:\ValuableSwap\Server\Server\bin\Debug\Server.exe.config
+D:\ValuableSwap\Server\Server\obj\Debug\Server.exe
+D:\ValuableSwap\Server\Server\obj\Debug\Server.pdb

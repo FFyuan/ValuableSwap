@@ -3,7 +3,7 @@
  * Created by Yuan on 4/28/16.
  */
 import {Injectable} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {Http, Response, Headers} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import {Media} from './media';
 
@@ -69,4 +69,23 @@ export class MediaService{
 
     }
 
+    getMediaById(id: number) : Observable<Media[]>{
+        return this.http.post(this.mediaUrl + 'id', JSON.stringify({
+            id : id
+        }))
+            .map(res => res.json());
+    }
+
+    postMedia(value: any, category: string, user: string){
+        this.http.post(this.mediaUrl + 'post', JSON.stringify({
+            UserName : user,
+            Name : value.name,
+            Genre : value.genre,
+            Artist : value.author,
+            Music_Type : value.system,
+            Condition : value.condition,
+            System : value.system,
+            Type_of_Media : category
+        }))
+    }
 }

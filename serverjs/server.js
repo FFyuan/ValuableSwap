@@ -6,7 +6,6 @@ http.createServer(function(request, response){
 	if(url == '/media'){
 		getMedia(function(err, result){
 			if(err) throw err;
-			console.log(result);
 			response.writeHead(200, {'Content-Type' : 'application/json'});
 			response.end(result);
 		});
@@ -53,6 +52,20 @@ http.createServer(function(request, response){
 			console.log(result);
 			response.end(result);
 		});
+	}else if(url == '/id'){
+		getMediaById(request, function(err, result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'application/json'});
+			console.log(result);
+			response.end(result);
+		});
+	}else if(url == '/post'){
+		postMedia(request, function(err, result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'application/json'});
+			console.log(result);
+			response.end(result);
+		});
 	}
 	else{
 		response.write("404 NOT FOUND");
@@ -80,7 +93,40 @@ function getMedia(callback){
 		    // ... connect error checks
 	});
 };
-
+function getMediaById(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data',function(chunk){
+		body += chunk.toString();
+	});
+	request.on('end', function(){
+		var pBody;
+		if(body != ""){
+			pBody = JSON.parse(body, function(k,v){return v;});
+			console.log(pBody);
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+		    // Query
+				new sql.Request().query('select * from getMedia where Media_id='+pBody.id).then(function(result) {
+					console.log('Media fetch success');
+					json = JSON.stringify(result);
+					callback(null, json);
+				}).catch(function(err) {
+					console.log('Media fetch failed');	
+					console.log(err);
+  				});
+			});
+		}
+	});
+}
+function postMedia(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data', function(chunk){
+		body += chunk.toString();
+	});
+	request.on('end', function(){
+	}
+}
 function getHasMedia(request, callback){
 	var json = JSON.stringify([{name : 'test has',category : 'Game'}]);
 	callback(null, json);
