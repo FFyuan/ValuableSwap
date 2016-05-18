@@ -5,8 +5,8 @@ import {Component, Input, OnInit, OnChanges, SimpleChange} from 'angular2/core';
 import {MediaService} from './media.service';
 import {Media} from './media';
 import {MediaComponent} from './media.component';
-
-@Component({
+/**
+*@Component({
 
         selector : 'mediadetails',
         template : `<div class="container-fluid" style="float: left; width: 300px">
@@ -29,3 +29,4 @@ import {MediaComponent} from './media.component';
 
 
 })
+ */
