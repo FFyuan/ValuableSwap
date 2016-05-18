@@ -6,6 +6,7 @@
                 <li><a *ngIf="!(user === undefined)" [routerLink]="['Repository']">Repository</a></li>
                 <li><a *ngIf="!(user === undefined)" [routerLink]="['Wishlist']">Wishlist</a></li>
                 <li><a *ngIf="!(user === undefined)"  >Friend List</a></li>
+                <li><a *ngIf="!(user === undefined)" [routerLink]="['Messages']">Messages</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a *ngIf="user === undefined" [routerLink]="['Register']">Sign Up</a></li>

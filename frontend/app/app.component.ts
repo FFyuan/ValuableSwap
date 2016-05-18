@@ -9,6 +9,7 @@ import {RegisterComponent} from "./register.component";
 import {WishlistComponent} from './wishlist.component';
 import {RepositoryComponent} from './repository.component';
 import {MediaDetailComponent} from './mediadetails.component';
+import {MessageComponent} from "./messages.component";
 
 @Component({
     selector: 'my-app',
@@ -43,6 +44,11 @@ import {MediaDetailComponent} from './mediadetails.component';
         path : '/mediadetails:id',
         name : 'MediaDetails',
         component : MediaDetailComponent
+    },
+    {
+        path : '/Messages',
+        name : 'Messages',
+        component : MessageComponent
     }
 ])
 

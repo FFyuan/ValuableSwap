@@ -6,15 +6,20 @@ import {Injectable} from 'angular2/core';
 import {Http, Response, Headers} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import {Media} from './media';
+import {userLoggined} from './userLoggined.function'
 
-
-@Injectable
+@Injectable()
 export class MessageService {
     constructor(private http: Http){}
 
-    private mediaUrl = 'http://localhost:5000/';
+    private messageUrl = 'http://localhost:5000/';
 
 
+    getMessagesOwnBy(user : string) : Observable<Message[]>{
+        return this.http.post(this.mediaUrl + 'has', JSON.stringify(
+            { user : user}))
+            .map(res => res.json());
+    }
 
     sendTradeRequest(media : Media, username : string){
         return this.http.post(this.mediaUrl + 'sendTradeRequest', JSON.stringify({
