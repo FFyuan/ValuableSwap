@@ -74,6 +74,22 @@ http.createServer(function(request, response){
 			console.log(jRes);
 			response.end(jRes);
 		});
+	}else if(url == '/addWishlist'){
+		addWishlist(request, function(err){
+			var result;
+			if (err==0){
+				result = {success : "true"};
+			}else{
+				result = {success : "false"};
+			}
+			var jRes = JSON.stringify(result);
+			response.writeHead(200, {
+				'Content-Type' : 'application/json'
+			});
+			console.log(jRes);
+			response.end(jRes);
+		});
+
 	}
 	else{
 		response.write("404 NOT FOUND");
@@ -165,7 +181,38 @@ function postMedia(request, callback){
 	});
 }
 
+function addWishlist(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data', function(chunk){
+		body += chunk.toString();
+	});
+	request.on('end', function(){
+		var pBody;
+		if(body != ""){
+			pBody = JSON.parse(body, function(k,v){return v;});
+			console.log("Parsed Data: " ,pBody);
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+				console.log("Connected to database");
+				new sql.Request().input('username', pBody.UserName)
+						 .input('item_id', pBody.Media_Id)
+						 .execute('addWantList').then(function(result) {
+							console.log("Item :", pBody.UserName, " has been added to the wishlist");
+							callback(0);
+						}).catch(function(err) {
+							console.log(err);
+							callbakc(1);
+						});
+			}).catch(function(err){
+				console.log(err);
+				callback(1);
+			});
+		} else {
+			callback(1);
+		}
+	});
 
+}
 function getHasMedia(request, callback){
 	var sql = require('mssql');
 	var body = "";
