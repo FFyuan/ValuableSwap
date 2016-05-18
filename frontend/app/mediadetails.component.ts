@@ -46,6 +46,14 @@ export class MediaDetailComponent{
 
         addWishlist(){
             let username = userLoggined();
-            this._service.addWishlist(this.media, username).subscribe();
+            this._service.addWishlist(this.media, username).subscribe(
+                (res:any)=>{
+                    if(res.success){
+                        window.location.reload();
+                    }else{
+                        console.log("Adding to wishlist Failed");
+                    }
+                }
+            );
         }
 }
