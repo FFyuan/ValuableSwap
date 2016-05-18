@@ -30,7 +30,7 @@ export class MessageslistComponent{
 
     messages : Message[];
 
-    constructor(private _mediaService : MediaService){};
+    constructor(private _messageService : MediaService){};
 
     getMedias(){
         this._mediaService.getMediasUnderCategory(this.category, this.keyword).subscribe(medias => this.medias = medias);

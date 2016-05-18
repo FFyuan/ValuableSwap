@@ -16,13 +16,13 @@ export class MessageService {
 
 
     getMessagesOwnBy(user : string) : Observable<Message[]>{
-        return this.http.post(this.mediaUrl + 'has', JSON.stringify(
+        return this.http.post(this.messageUrl + 'has', JSON.stringify(
             { user : user}))
             .map(res => res.json());
     }
 
     sendTradeRequest(media : Media, username : string){
-        return this.http.post(this.mediaUrl + 'sendTradeRequest', JSON.stringify({
+        return this.http.post(this.messageUrl + 'sendTradeRequest', JSON.stringify({
             UserName : username,
             UserName1 : username
         }), {
@@ -33,7 +33,7 @@ export class MessageService {
         })
     }
     tradeItem(media : Media, media2 : Media, user1 : string, user2 : string) {
-        return this.http.post(this.mediaUrl + 'tradeItem', JSON.stringify({
+        return this.http.post(this.messageUrl + 'tradeItem', JSON.stringify({
             User1 : user1,
             User2 : user2,
             item1 : media,
