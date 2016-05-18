@@ -6,7 +6,7 @@ import {MediaService} from './media.service';
 import {Media} from './media';
 import {MediaComponent} from './media.component';
 import { RouteParams } from 'angular2/router';
-
+import {userLoggined} from './userLoggined.function';
 @Component({
 
         selector : 'mediadetails',
@@ -24,6 +24,7 @@ import { RouteParams } from 'angular2/router';
                     <li *ngIf="media.category.includes('Game')" class = "list-item">Game Console:{{media.game_system}}</li>
                     <li *ngIf="media.category.includes('Movie')" class = "list-item">Movie System:{{media.movie_system}}</li>
                 </ul>
+                <button class="btn btn-default" (click)="addWishlist()">Add to Wishlist</button>
                 </div>
                 `
 })
@@ -41,5 +42,10 @@ export class MediaDetailComponent{
                     console.log(medias[0]);
                     this.media = medias[0];
                 });
+        }
+
+        addWishlist(){
+            let username = userLoggined();
+            this._service.addWishlist(this.media, username).subscribe();
         }
 }

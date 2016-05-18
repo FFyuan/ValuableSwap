@@ -45,6 +45,7 @@ export class Authentication {
         }), {
             headers: new Headers({'Content-Type': 'application/json'})
         }).map((res: any)=> {
+            console.log(res);
             return res.json();
         });
     }

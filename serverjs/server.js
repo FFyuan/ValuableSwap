@@ -61,8 +61,18 @@ http.createServer(function(request, response){
 		});
 	}else if(url == '/post'){
 		postMedia(request, function(err){
-			if(err) throw err;
-			response.end();
+			var result;
+			if (err==0){
+				result = {success : "true"};
+			}else{
+				result = {success : "false"};
+			}
+			var jRes = JSON.stringify(result);
+			response.writeHead(200, {
+				'Content-Type' : 'application/json'
+			});
+			console.log(jRes);
+			response.end(jRes);
 		});
 	}
 	else{
