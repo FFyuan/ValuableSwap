@@ -23,7 +23,7 @@ import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Validators, Control, Cont
         </div>
 
         <div class="row" *ngIf="!UserName.valid && UserName.touched">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-offset-2 col-md-6">
                 <p class="bg-danger">UserName is Invalid</p>
             </div>
         </div>
@@ -36,7 +36,7 @@ import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Validators, Control, Cont
         </div>
 
         <div class="row" *ngIf="!Name.valid && Name.touched">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-offset-2 col-md-6">
             <p class="bg-danger">
             Name is Invalid
             </p>
@@ -51,7 +51,7 @@ import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Validators, Control, Cont
         </div>
 
         <div class="row" *ngIf="!Email.valid && Email.touched">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-offset-2 col-md-6">
             <p class="bg-danger">
             Email is Invalid
             </p>
@@ -65,7 +65,7 @@ import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Validators, Control, Cont
         <input class="form-control" type="password" ngControl="Password" >
         </div>
         <div class="row" *ngIf="!Password.valid && Password.touched">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-offset-2 col-md-6">
             <p class="bg-danger">
             Password is Invalid
             </p>
@@ -79,7 +79,7 @@ import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Validators, Control, Cont
         <input class="form-control" type="password" ngControl="CPassword">
         </div>
         <div class="row" *ngIf="form.errors.notMatching && CPassword.touched">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-offset-2 col-md-6">
             <p class="bg-danger">
             Password not match
             </p>

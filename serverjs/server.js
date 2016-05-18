@@ -6,6 +6,7 @@ http.createServer(function(request, response){
 	if(url == '/media'){
 		getMedia(function(err, result){
 			if(err) throw err;
+			console.log(result);
 			response.writeHead(200, {'Content-Type' : 'application/json'});
 			response.end(result);
 		});
