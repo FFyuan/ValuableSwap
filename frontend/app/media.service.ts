@@ -26,7 +26,30 @@ export class MediaService{
                         }else {
                             return media.name.toLowerCase().includes(keyword) || media.genre.toLowerCase().includes(keyword);
                         }
-                    }else{
+                    }else if (category == 'Music') {
+                        return media.category.toLowerCase().includes(keyword) || 
+                            media.name.toLowerCase().includes(keyword)||
+                            media.genre.toLowerCase().includes(keyword) ||
+                            media.artist.toLowerCase().includes(keyword) ||
+                            media.music_type.toLowerCase().includes(keyword);    
+                                
+                    } else if (category == 'Movie'){
+                        return media.category.toLowerCase().includes(keyword) ||
+                            media.name.toLowerCase().includes(keyword) ||
+                            media.genre.toLowerCase().includes(keyword) ||
+                            media.movie_system.toLowerCase().includes(keyword);    
+                    } else if (category == 'Book') {
+                        return media.category.toLowerCase().includes(keyword) ||
+                            media.name.toLowerCase().includes(keyword) ||
+                            media.genre.toLowerCase().includes(keyword) ||
+                            media.author.toLowerCase().includes(keyword);
+                    } else if (category == 'Game'){
+                        return media.category.toLowerCase().includes(keyword) ||
+                            media.name.toLowerCase().includes(keyword) ||
+                            media.genre.toLowerCase().includes(keyword) ||
+                            media.game_system.toLowerCase().includes(keyword);    
+                    }
+                    else{
                         return media.category.toLowerCase().includes(keyword) ||
                             media.name.toLowerCase().includes(keyword) ||
                             media.genre.toLowerCase().includes(keyword);

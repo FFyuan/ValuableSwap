@@ -7,8 +7,6 @@ import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf, AbstractCo
 import {MedialistComponent} from './medialist.component';
 import {Router} from 'angular2/router';
 import {MediaService} from './media.service';
-import {AbstractControl} from "../node_modules/angular2/ts/src/common/forms/model";
-import {Validators} from "../node_modules/angular2/ts/src/common/forms/validators";
 
 @Component({
     selector : 'repository',

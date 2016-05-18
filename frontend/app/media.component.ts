@@ -13,7 +13,7 @@ import {Media} from './media';
                     <li class="list-item"><img src="http://www.hdums.com/img/swap.png" class="img-rounded" style="width: 100%"> </li>
                     <li class = "list-item">Category: {{media.category}}</li>
                     <li class = "list-item">Genre:{{media.genre}}</li>
-                    <li class = "list-item">condition:{{media.condition}}</li>
+                    <li class = "list-item">Condition:{{media.condition}}</li>
                     <li class = "list-item">Name:{{media.name}}</li>
                 </ul>
                 </div>
