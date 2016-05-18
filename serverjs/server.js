@@ -157,8 +157,57 @@ function postMedia(request, callback){
 
 
 function getHasMedia(request, callback){
-	var json = JSON.stringify([{name : 'test has',category : 'Game'}]);
-	callback(null, json);
+	var sql = require('mssql');
+	var body = "";
+	request.on('data',function(chunk){
+		body += chunk.toString();
+	});
+	request.on('end', function(){
+		var pBody;
+		if(body != ""){
+			pBody = JSON.parse(body, function(k,v){return v;});
+			console.log(pBody);
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+		    // Query
+				new sql.Request().query('select * from getUserMedia where username =\''+pBody.user+'\'').then(function(result) {
+					console.log('User Media fetch success');
+					json = JSON.stringify(result);
+					callback(null, json);
+				}).catch(function(err) {
+					console.log('User Media fetch failed');	
+					console.log(err);
+  				});
+			});
+		}
+	});
+}
+function getWantMedia(request, callback){
+
+	var sql = require('mssql');
+	var body = "";
+	request.on('data',function(chunk){
+		body += chunk.toString();
+	});
+	request.on('end', function(){
+		var pBody;
+		if(body != ""){
+			pBody = JSON.parse(body, function(k,v){return v;});
+			console.log(pBody);
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+		    // Query
+				new sql.Request().query('select * from getUserWants where username=\''+pBody.user+'\'').then(function(result) {
+					console.log('Wish List success');
+					json = JSON.stringify(result);
+					callback(null, json);
+				}).catch(function(err) {
+					console.log('Wish List failed');	
+					console.log(err);
+  				});
+			});
+		}
+	});
+
+
 }
 
 function registration(request, callback){

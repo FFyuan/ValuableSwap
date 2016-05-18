@@ -59,12 +59,14 @@ export class MediaService{
     }
 
     getMediasOwnBy(user : string) : Observable<Media[]>{
-        return this.http.get(this.mediaUrl + 'has')
+        return this.http.post(this.mediaUrl + 'has', JSON.stringify(
+            { user : user}))
             .map(res => res.json());
     }
 
     getMediasWantBy(user : string) : Observable<Media[]>{
-        return this.http.get(this.mediaUrl + 'want')
+        return this.http.post(this.mediaUrl + 'want', JSON.stringify({
+            user : user}))
             .map(res => res.json());
 
     }
