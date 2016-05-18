@@ -7,57 +7,10 @@ import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf, AbstractCo
 import {MedialistComponent} from './medialist.component';
 import {Router} from 'angular2/router';
 import {MediaService} from './media.service';
-import {AbstractControl} from "../node_modules/angular2/ts/src/common/forms/model";
-import {Validators} from "../node_modules/angular2/ts/src/common/forms/validators";
 
 @Component({
     selector : 'repository',
-    template : `
-                <div class="well">
-                    <h3>{{title}}</h3>
-                    <media-list [ownBy]="user"> </media-list>
-                </div>
-                <div class="well">
-                    <h3>Post a new item</h3>
-                    {{category}}
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="category" class="control-label col-md-2">Category:</label>
-                            <div class="col-md-6">
-                                 <select class="form-control" [(ngModel)]="category">
-                                    <option value="Game">Game</option>
-                                    <option value="Music">Music</option>
-                                    <option value="Movie">Movie</option>
-                                    <option value="Book">Book</option>
-                                 </select>
-                            </div>
-                        </div>
-                    </form>
-
-                    <form *ngIf="category === 'Game'" class="form-horizontal" role="form" [ngFormModel]="gameForm" (submit)="gameSubmit(gameForm.value)">
-                    Game Form
-                        <div class="form-group">
-                            <label class="control-label col-md-2" for="name">Name:</label>
-                            <div class="col-md-6">
-                                <input class="form-control" type="text" ngControl="gameName">
-                            </div>
-                        </div>
-
-                         <div class="row" *ngIf="!gameName.valid && gameName.touched">
-                            <div class="col-md-offset-2 col-md-6">
-                                <p class="bg-danger">
-                                    Name is Invalid
-                                </p>
-                            </div>
-                         </div>
-
-                    </form>
-
-
-
-                </div>
-
-    `,
+    templateUrl : 'app/repository.html',
 
     directives : [MedialistComponent, FORM_DIRECTIVES, NgIf]
 })
@@ -67,27 +20,34 @@ export class RepositoryComponent{
     title = "My Items";
     category : string;
 
-    gameForm : ControlGroup;
-        gameName : AbstractControl;
-
-    movieForm : ControlGroup;
-
-    musicForm : ControlGroup;
-
-    bookForm : ControlGroup;
+    form : ControlGroup;
+        name : AbstractControl;
+        genre : AbstractControl;
+        system : AbstractControl;
+        condition : AbstractControl;
+        author : AbstractControl;
 
     constructor(fb : FormBuilder, private _mediaService : MediaService){
-        this.gameForm = fb.group({
-            gameName : ['', Validators.required]
+        this.form = fb.group({
+            name : ['', Validators.required],
+            genre : ['', Validators.required],
+            system : [''],
+            condition : ['', Validators.required],
+            author : ['']
         });
-        this.gameName = this.gameForm.controls['gameName'];
+        this.name = this.form.controls['name'];
+        this.genre = this.form.controls['genre'];
+        this.system = this.form.controls['system'];
+        this.condition = this.form.controls['condition'];
+        this.author = this.form.controls['author'];
     }
 
     ngOnInit(){
         this.user = localStorage.getItem('token');
     }
 
-    onSumbit(value : any){
+   onSubmit(value : any){
 
+        console.log('Submitting : ', value);
     }
 }
