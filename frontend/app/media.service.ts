@@ -76,7 +76,7 @@ export class MediaService{
             .map(res => res.json());
     }
 
-    postMedia(value: any, category: string, user: string){
+    postMedia(value: any, category: string, user: string) {
         this.http.post(this.mediaUrl + 'post', JSON.stringify({
             UserName : user,
             Name : value.name,
@@ -86,6 +86,8 @@ export class MediaService{
             Condition : value.condition,
             System : value.system,
             Type_of_Media : category
-        }))
+        }), {
+            headers: new Headers({'Content-Type' : 'application/json'})
+        }).map(res => res.json())
     }
 }
