@@ -4,14 +4,14 @@ import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
 import {MediaService} from './media.service';
 import {Authentication} from './authentication';
+import {MessageService} from './message.service';
 import {userLoggined} from './userLoggined.function';
 import {RegisterComponent} from "./register.component";
 import {WishlistComponent} from './wishlist.component';
 import {RepositoryComponent} from './repository.component';
 import {MediaDetailComponent} from './mediadetails.component';
-import {MessageComponent} from "./messages.component";
-import {MessageService} from "./messages.service";
-import {MessageDetailComponent} from './messagesdetails.component'
+import {MessagesComponent} from './messages.component';
+
 
 @Component({
     selector: 'my-app',
@@ -42,19 +42,11 @@ import {MessageDetailComponent} from './messagesdetails.component'
         path : '/repository',
         name : 'Repository',
         component : RepositoryComponent
-    },{
-        path : '/mediadetails:id',
-        name : 'MediaDetails',
-        component : MediaDetailComponent
     },
     {
         path : '/messages',
         name : 'Messages',
-        component : MessageComponent
-    },{
-        path : '/messagedetails:id',
-        name : 'MessageDetails',
-        component : MessageDetailComponent
+        component : MessagesComponent
     }
 ])
 
