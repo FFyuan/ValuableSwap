@@ -11,17 +11,17 @@ import {Message} from './message';
 @Component({
     selector: 'message',
 
-    template: `<div *ngIf="message.sender == owner" class="row" style="background-color: #999">
+    template: `<div *ngIf="message.sender == owner" class="list-group-item" style="background-color: #999">
                     <div class="row">
-                        <p class="text-right">{{message.message_text}}</p>
+                        <p class="text-right" style="padding-right: 40px">{{message.message_text}}</p>
                     </div>
                </div>
-               <div *ngIf="message.receiver == owner" class="row" style="background-color: #eee">
+               <div *ngIf="message.receiver == owner" class="list-group-item" style="background-color: #eee">
                     <div class="row">
-                        <p class="text-left">{{message.sender}} sends:</p>
+                        <p class="text-left" style="padding-left: 20px">{{message.sender}} sends:</p>
                     </div>
                     <div class="row">
-                        <p class="text-left">{{message.message_text}}</p>
+                        <p class="text-left" style="padding-left: 40px">{{message.message_text}}</p>
                     </div>
                </div>`
 })

@@ -12,27 +12,26 @@ export class MessageService{
 
     private messageUrl = 'http://localhost:5000/';
 
-    getUsersConnectWith(user : string){
-        return ['abc','cde'];
+    getUsersConnectWith(user : string) : Observable<string[]>{
+        return this.http.post(this.messageUrl + 'userconnections', JSON.stringify({
+            user : user
+        })).map(res => res.json());
     }
 
-    getMessagesfromUsers(user1 : string, user2 : string){
-        return [{
-            sender : 'adsf',
-            receiver : 'test',
-            message_text : 'test_message',
-            time : undefined
-        },{
-            sender : 'test',
-            receiver : 'adsf',
-            message_text : 'test_message_test',
-            time : undefined
-        },{
-            sender : 'adsf',
-            receiver : 'test',
-            message_text : 'message_test',
-            time : undefined
-        }];
+    getMessagesfromUsers(user1 : string, user2 : string) : Observable<Message[]>{
+        return this.http.post(this.messageUrl + 'messages', JSON.stringify({
+            user1: user1,
+            user2: user2
+        })).map(res => res.json());
+    }
+
+    sendMessage(sender : string, receiver : string, text : string) {
+        return this.http.post(this.messageUrl+'sendmessage', JSON.stringify({
+            sender : sender,
+            receiver : receiver,
+            text : text
+        })).map(res => res.json());
+
     }
 
 }

@@ -7,10 +7,12 @@ import {Media} from './media';
 import {MediaComponent} from './media.component';
 import { RouteParams } from 'angular2/router';
 import {userLoggined} from './userLoggined.function';
+import {MessagePostComponent} from './messagepost.component';
+
 @Component({
 
         selector : 'mediadetails',
-        template : `<div class="container-fluid" style="float: left; width: 300px">
+        template : `<div class="container-fluid" >
                 <ul *ngIf="media" class ="well" style="list-style-type: none; ">
                     <li class = "list-item"><img src="https://www.cs.purdue.edu/homes/gwilkin/gwilkin-large.jpg" class="img-rounded" style="width: 100%"> </li>
                     <li class = "list-item">User : {{media.username}}</li>
@@ -23,19 +25,25 @@ import {userLoggined} from './userLoggined.function';
                     <li *ngIf="media.category.includes('Book')" class = "list-item">Author:{{media.author}}</li>
                     <li *ngIf="media.category.includes('Game')" class = "list-item">Game Console:{{media.game_system}}</li>
                     <li *ngIf="media.category.includes('Movie')" class = "list-item">Movie System:{{media.movie_system}}</li>
-                </ul>
-                <button class="btn btn-default" (click)="addWishlist()">Add to Wishlist</button>
+                <div class="row">
+                <button class="col-md-offset-10 col-md-2 btn btn-default" (click)="addWishlist()">Add to Wishlist</button>
                 </div>
-                `
+                </ul>
+                <message-post *ngIf="media" [target]="media.username" [owner]="owner"></message-post>
+                </div>`,
+        directives : [MessagePostComponent]
+
 })
 
 
 export class MediaDetailComponent{
 
         media : any;
+        owner : string;
 
         constructor(private _routerPara : RouteParams, private _service : MediaService){}
         ngOnInit(){
+                this.owner = userLoggined();
                 let id = +this._routerPara.get('id');
                 console.log(id);
                 this._service.getMediaById(id).subscribe(medias =>{
@@ -48,7 +56,7 @@ export class MediaDetailComponent{
             this._service.addWishlist(this.media, username).subscribe(
                 (res:any)=>{
                     if(res.success){
-                        window.location.reload();
+                        console.log("Adding to wishlist success")
                     }else{
                         console.log("Adding to wishlist Failed");
                     }
