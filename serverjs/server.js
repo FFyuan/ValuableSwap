@@ -98,6 +98,22 @@ http.createServer(function(request, response){
 			console.log(result);
 			response.end(result);
 		});
+	} else if (url == '/TradeConfirmed'){
+		confirmTrade(request, function(err){
+			var result;
+			if (err==0){
+				result = {success : "true"};
+			}else{
+				result = {success : "false"};
+			}
+			var jRes = JSON.stringify(result);
+			response.writeHead(200, {
+				'Content-Type' : 'application/json'
+			});
+			console.log(jRes);
+			response.end(jRes);
+		});
+
 	}
 	else{
 		response.write("404 NOT FOUND");
@@ -106,6 +122,40 @@ http.createServer(function(request, response){
 
 
 }).listen(5000);
+
+function confirmTrade(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data', function(chunk){
+		body += chunk.toString()
+	});
+	request.on('end', function(){
+		var pBody;
+		if (body != "") {
+			pBody = JSON.parse(body, function(k,v){ return v;});
+			console.log("Name:", pBody.UserName, " is wanting to register");
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+				console.log("Connected to database");
+				new sql.Request().input('user1', pBody.User1)
+						 .input('user2', pBody.User2)
+						 .input('item_1', pBody.item1)
+						 .input('item_2', pBody.item2)
+						 .execute('tradeItem').then(function(result) {
+							console.log("Trade Confirmed!");
+							callback(0);
+						}).catch(function(err) {
+							console.log(err);
+							callback(1);
+						});
+			}).catch(function(err){
+				console.log(err);
+				callback(1);
+			});
+		} else {
+			callback(1);
+		}
+	});
+}
 
 function getMessagesReceived(request, callback){
 	var sql = require('mssql');
