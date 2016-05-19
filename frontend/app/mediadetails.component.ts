@@ -25,7 +25,6 @@ import {userLoggined} from './userLoggined.function';
                     <li *ngIf="media.category.includes('Movie')" class = "list-item">Movie System:{{media.movie_system}}</li>
                 </ul>
                 <button class="btn btn-default" (click)="addWishlist()">Add to Wishlist</button>
-                <button class="btn btn-default" (click)="sendTradeRequests()">Send Trade Request</button>
                 </div>
                 `
 })
