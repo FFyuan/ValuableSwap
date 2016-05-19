@@ -12,12 +12,14 @@ import {MessageListComponent} from './messagelist.component';
 @Component({
     selector : 'messages',
     directives : [MessageListComponent],
-    template : `{{owner}}
-                <div class="container">
+    template : `<div class="well">
+                <div class="list-group">
                     <div  *ngFor = '#target of targets'>
                         <message-list [target]="target"></message-list>
                     </div>
+                </div>
                 </div>`
+
 })
 
 export class MessagesComponent{
@@ -28,7 +30,9 @@ export class MessagesComponent{
 
     ngOnInit(){
         this.owner = userLoggined();
-        this.targets = this._massegeService.getUsersConnectWith(this.owner);
+        this._massegeService.getUsersConnectWith(this.owner).subscribe(users =>
+            this.targets = users
+        );
         console.log(this.targets);
     }
 }

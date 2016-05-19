@@ -47,6 +47,11 @@ import {MessagesComponent} from './messages.component';
         path : '/messages',
         name : 'Messages',
         component : MessagesComponent
+    },
+    {
+        path : '/mediadetails/:id',
+        name : 'MediaDetails',
+        component : MediaDetailComponent
     }
 ])
 

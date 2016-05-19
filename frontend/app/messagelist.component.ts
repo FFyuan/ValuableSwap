@@ -8,20 +8,22 @@ import {Message} from './message';
 import {MessageComponent} from './message.component';
 import {userLoggined} from './userLoggined.function';
 import {MessageService} from './message.service';
+import {MessagePostComponent} from './messagepost.component';
 
 @Component({
     selector : 'message-list',
-    template : `<div class="container">
-                    <div class="row" (click)="onClick()">{{target}}</div>
-                    <div *ngIf="showDetail">
+    template : `<li class="list-group-item" (click)="onClick()">
+                    Conversation with {{target}}
+                </li>
+                <li class="list-group-item" *ngIf="showDetail">
                     <div *ngFor = '#message of messages'>
                         <message [message]="message"></message>
                     </div>
-                    </div>
-                </div>
+                    <message-post [target]="target" [owner]="owner"></message-post>
+                </li>
 
     `,
-    directives : [MessageComponent]
+    directives : [MessageComponent, MessagePostComponent]
 })
 
 export class MessageListComponent{
@@ -38,7 +40,9 @@ export class MessageListComponent{
 
     ngOnInit(){
         this.owner = userLoggined();
-        this.messages = this._messageService.getMessagesfromUsers(this.owner, this.target);
+        this._messageService.getMessagesfromUsers(this.owner, this.target).subscribe(messages =>
+            this.messages = messages
+        );
         console.log(this.messages);
     }
 }
