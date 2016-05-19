@@ -33,14 +33,14 @@ export class MessageslistComponent{
     constructor(private _messageService : MessageService){};
 
 
-    getMessagesOwnBy(){
-        this._messageService.getMessagesOwnBy(this.receiver).subscribe(messages => this.messages = messages);
+    getMessagesReceivedBy(){
+        this._messageService.getMessagesReceivedBy(this.receiver).subscribe(messages => this.messages = messages);
     }
     
 
     ngOnInit(){
    
-        this.getMessagesOwnBy();
+        this.getMessagesReceivedBy();
       
     }
 

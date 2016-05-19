@@ -10,11 +10,13 @@ import {WishlistComponent} from './wishlist.component';
 import {RepositoryComponent} from './repository.component';
 import {MediaDetailComponent} from './mediadetails.component';
 import {MessageComponent} from "./messages.component";
+import {MessageService} from "./messages.service";
+import {MessageDetailComponent} from './messagesdetails.component'
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    providers : [ROUTER_PROVIDERS, MediaService, Authentication],
+    providers : [ROUTER_PROVIDERS, MediaService, Authentication, MessageService],
     directives : [ROUTER_DIRECTIVES]
 })
 
@@ -46,13 +48,13 @@ import {MessageComponent} from "./messages.component";
         component : MediaDetailComponent
     },
     {
-        path : '/Messages',
+        path : '/messages',
         name : 'Messages',
         component : MessageComponent
     },{
-        path : '/MessageDetails:id',
+        path : '/messagedetails:id',
         name : 'MessageDetails',
-        Component : Messages
+        component : MessageDetailComponent
     }
 ])
 

@@ -29,8 +29,8 @@ export class MessageDetailComponent {
         let id = +this._routerPara.get('id');
         console.log(id);
         this._service.getSpecificMessage(id).subscribe(message =>{
-            console.log(messages[0]);
-            this.message = messages[0];
+            console.log(message[0]);
+            this.message = message[0];
         });
     }
     

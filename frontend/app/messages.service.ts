@@ -12,15 +12,15 @@ import {userLoggined} from './userLoggined.function'
 export class MessageService {
     constructor(private http: Http){}
 
-    private messageUrl = 'http://localhost:5000/';
+    private messageUrl = 'http://localhost:3000/';
 
 
-    getMessagesReceivedBy(user : string) : Observable<Message[]>{
+    getMessagesReceivedBy(user : string) : Observable<Messages[]>{
         return this.http.post(this.messageUrl + 'MessagesReceivedBy', JSON.stringify(
             { user : user}))
             .map(res => res.json());
     }
-    getSpecificMessage(message_id : number) : Observable<Message[]>{
+    getSpecificMessage(message_id : number) : Observable<Messages[]>{
         return this.http.post(this.messageUrl + 'SpecificMessage', JSON.stringify({
             message_id : message_id
         })).map(res => res.json());
