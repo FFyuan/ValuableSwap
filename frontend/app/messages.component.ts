@@ -12,6 +12,7 @@ selector : 'message',
                 <ul class ="well" style="list-style-type: none; ">
                     <li class = "list-item">Sender: {{message.sender}}</li>
                 </ul>
+               <button class="btn btn-default" (click)="newMessage()">New Message</button>
                 </div>
                 `,
 })
@@ -25,6 +26,9 @@ export class MessageComponent{
 
     }
     onClick(){
-        
+        this._router.navigate(['MessageDetails', {id : this.message.message_id}, {user : this.message.receiver}]);
+    }
+    newMessage(){
+        this._router.navigate(['newMessage'])
     }
 }

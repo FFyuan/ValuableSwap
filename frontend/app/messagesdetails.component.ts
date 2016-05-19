@@ -22,7 +22,17 @@ import {userLoggined} from './userLoggined.function';
 })
 
 export class MessageDetailComponent {
-    
+    message : any;
+
+    constructor(private _routerPara : RouteParams, private _service : MessageService){}
+    ngOnInit(){
+        let id = +this._routerPara.get('id');
+        console.log(id);
+        this._service.getSpecificMessage(id).subscribe(message =>{
+            console.log(messages[0]);
+            this.message = messages[0];
+        });
+    }
     
 }
 
