@@ -197,7 +197,7 @@ function addWishlist(request, callback){
 				new sql.Request().input('username', pBody.UserName)
 						 .input('item_id', pBody.Media_Id)
 						 .execute('addWantList').then(function(result) {
-							console.log("Item :", pBody.UserName, " has been added to the wishlist");
+							console.log("Item :", pBody.Media_Id, " has been added to the wishlist");
 							callback(0);
 						}).catch(function(err) {
 							console.log(err);
