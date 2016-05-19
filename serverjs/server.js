@@ -91,14 +91,22 @@ http.createServer(function(request, response){
 		});
 
 	}
-	else if (url == '/MessagesReceivedBy'){
-		getMessagesReceived(function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
+	else if(url == '/messages'){
+		getMessages(request, function(err){
+			var result;
+			if (err==0){
+				result = {success : "true"};
+			}else{
+				result = {success : "false"};
+			}
+			var jRes = JSON.stringify(result);
+			response.writeHead(200, {
+				'Content-Type' : 'application/json'
+			});
+			console.log(jRes);
+			response.end(jRes);
 		});
-	} else if (url == '/TradeConfirmed'){
+	}else if (url == '/TradeConfirmed'){
 		confirmTrade(request, function(err){
 			var result;
 			if (err==0){
@@ -115,7 +123,22 @@ http.createServer(function(request, response){
 		});
 
 	}
-	else{
+	else if(url == '/sendmessage'){
+		sendMessage(request, function(err){
+			var result;
+			if (err==0){
+				result = {success : "true"};
+			}else{
+				result = {success : "false"};
+			}
+			var jRes = JSON.stringify(result);
+			response.writeHead(200, {
+				'Content-Type' : 'application/json'
+			});
+			console.log(jRes);
+			response.end(jRes);
+		});
+	} else{
 		response.write("404 NOT FOUND");
 		response.end();
 	}
@@ -156,29 +179,66 @@ function confirmTrade(request, callback){
 		}
 	});
 }
-
-function getMessagesReceived(request, callback){
+function sendMessage(request, callback){
 	var sql = require('mssql');
 	var body = "";
-	request.on('data',function(chunk){
-		body += chunk.toString();
+	request.on('data', function(chunk){
+		body += chunk.toString()
 	});
 	request.on('end', function(){
 		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log(pBody);
+		if (body != "") {
+			pBody = JSON.parse(body, function(k,v){ return v;});
+			console.log("Name:", pBody.User1, " is wanting to send a message");
 			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		    // Query
-				new sql.Request().query('select * from VS_Messages where receiver=\''+pBody.user+'\'').then(function(result) {
-					console.log('Received messages success');
-					json = JSON.stringify(result);
-					callback(null, json);
-				}).catch(function(err) {
-					console.log('Received messages failed');	
-					console.log(err);
-  				});
+				console.log("Connected to database");
+				new sql.Request().input('sender', pBody.sender)
+						 .input('receiver', pBody.receiver)
+						 .input('message_text', pBody.text)
+						 .execute('sendMessage').then(function(result) {
+							console.log("Message Sent!");
+							callback(0);
+						}).catch(function(err) {
+							console.log(err);
+							callback(1);
+						});
+			}).catch(function(err){
+				console.log(err);
+				callback(1);
 			});
+		} else {
+			callback(1);
+		}
+	});
+}
+function getMessages(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data', function(chunk){
+		body += chunk.toString()
+	});
+	request.on('end', function(){
+		var pBody;
+		if (body != "") {
+			pBody = JSON.parse(body, function(k,v){ return v;});
+			console.log("Name:", pBody.User1, " is wanting to send a message");
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+				console.log("Connected to database");
+				new sql.Request().input('user1', pBody.user1)
+						 .input('user2', pBody.user2)
+						 .execute('getMessages').then(function(result) {
+							console.log("Messages Retrieved!");
+							callback(0);
+						}).catch(function(err) {
+							console.log(err);
+							callback(1);
+						});
+			}).catch(function(err){
+				console.log(err);
+				callback(1);
+			});
+		} else {
+			callback(1);
 		}
 	});
 }
