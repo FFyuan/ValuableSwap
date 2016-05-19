@@ -252,7 +252,7 @@ function getWantMedia(request, callback){
 			console.log(pBody);
 			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
 		    // Query
-				new sql.Request().query('select * from getUserWants where username=\''+pBody.user+'\'').then(function(result) {
+				new sql.Request().query('select * from getUserWants where username =\''+pBody.user+'\'').then(function(result) {
 					console.log('Wish List success');
 					json = JSON.stringify(result);
 					callback(null, json);
