@@ -30,35 +30,24 @@ export class MessageslistComponent{
 
     messages : Message[];
 
-    constructor(private _messageService : MediaService){};
+    constructor(private _messageService : MessageService){};
 
-    getMedias(){
-        this._mediaService.getMediasUnderCategory(this.category, this.keyword).subscribe(medias => this.medias = medias);
-    }
 
-    getMediasOwnBy(){
-        this._mediaService.getMediasOwnBy(this.ownBy).subscribe(medias => this.medias = medias);
+    getMessagesReceivedBy(){
+        this._messageService.getMessagesReceivedBy(this.receiver).subscribe(messages => this.messages = messages);
     }
-
-    getMediasWantBy(){
-        this._mediaService.getMediasWantBy(this.wantBy).subscribe(medias => this.medias = medias);
-    }
+    
 
     ngOnInit(){
-        if(!this.ownBy && !this.wantBy) {
-            this.getMedias();
-        }else
-        if(this.ownBy){
-            this.getMediasOwnBy();
-        }else{
-            this.getMediasWantBy();
-        }
+   
+        this.getMessagesReceivedBy();
+      
     }
 
     ngOnChanges(changes: {[propKey:string]: SimpleChange}){
         if(changes['keyword']) {
             let key = changes['keyword'].currentValue;
-            this.getMedias();
+            this.getMessagesOwnBy();
         }
     }
 }
