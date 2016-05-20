@@ -42,6 +42,7 @@ export class MessagePostComponent{
         this._messageService.sendMessage(this.owner, this.target, value.message_text).subscribe(
             (result : any) => {
                 console.log(result);
+                window.location.reload();
             }
         );
     }

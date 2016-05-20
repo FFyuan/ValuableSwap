@@ -92,7 +92,14 @@ http.createServer(function(request, response){
 
 	}
 	else if(url == '/messages'){
-		getMessages(request, function(err){
+		getMessages(request, function(err,result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'application/json'});
+			console.log(result);
+			response.end(result);
+		});
+	}else if (url == '/requesttrade'){
+		requestTrade(request, function(err){
 			var result;
 			if (err==0){
 				result = {success : "true"};
@@ -106,7 +113,8 @@ http.createServer(function(request, response){
 			console.log(jRes);
 			response.end(jRes);
 		});
-	}else if (url == '/TradeConfirmed'){
+
+	}else if (url == '/confirmtrade'){
 		confirmTrade(request, function(err){
 			var result;
 			if (err==0){
@@ -123,6 +131,7 @@ http.createServer(function(request, response){
 		});
 
 	}
+
 	else if(url == '/sendmessage'){
 		sendMessage(request, function(err){
 			var result;
@@ -138,7 +147,14 @@ http.createServer(function(request, response){
 			console.log(jRes);
 			response.end(jRes);
 		});
-	} else{
+	} else if(url == '/userconnections'){
+		getUsersConnection(request, function(err,result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'application/json'});
+			console.log(result);
+			response.end(result);
+		});
+	}else{
 		response.write("404 NOT FOUND");
 		response.end();
 	}
@@ -156,15 +172,46 @@ function confirmTrade(request, callback){
 		var pBody;
 		if (body != "") {
 			pBody = JSON.parse(body, function(k,v){ return v;});
-			console.log("Name:", pBody.UserName, " is wanting to register");
+			console.log("Trade: " + pBody.tradeId + " is wanting to be confirmed");
 			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
 				console.log("Connected to database");
-				new sql.Request().input('user1', pBody.User1)
-						 .input('user2', pBody.User2)
+				new sql.Request().input('Trade_id', pBody.tradeId)
+						 .execute('confirmTrade').then(function(result) {
+							console.log("Trade Confirmed!");
+							callback(0);
+						}).catch(function(err) {
+							console.log(err);
+							callback(1);
+						});
+			}).catch(function(err){
+				console.log(err);
+				callback(1);
+			});
+		} else {
+			callback(1);
+		}
+	});
+}
+
+function requestTrade(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data', function(chunk){
+		body += chunk.toString()
+	});
+	request.on('end', function(){
+		var pBody;
+		if (body != "") {
+			pBody = JSON.parse(body, function(k,v){ return v;});
+			console.log("User: " + pBody.user1 + " and User: " + pBody.user2 + " is trading with items + ", pBody.item1, pBody.item2);
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+				console.log("Connected to database");
+				new sql.Request().input('user1', pBody.user1)
+						 .input('user2', pBody.user2)
 						 .input('item_1', pBody.item1)
 						 .input('item_2', pBody.item2)
 						 .execute('tradeItem').then(function(result) {
-							console.log("Trade Confirmed!");
+							console.log("Trade Requested!");
 							callback(0);
 						}).catch(function(err) {
 							console.log(err);
@@ -211,6 +258,38 @@ function sendMessage(request, callback){
 		}
 	});
 }
+
+function getUsersConnection(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data', function(chunk){
+		body += chunk.toString()
+	});
+	request.on('end', function(){
+		var pBody;
+		if (body != "") {
+			pBody = JSON.parse(body, function(k,v){ return v;});
+			console.log("Name:", pBody.user, " is wanting connection list");
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+				console.log("Connected to database");
+				new sql.Request().input('User', pBody.user)
+						 .execute('userConnections').then(function(result) {
+							console.log("Connections Retrieved!");
+							console.log(result[0]);
+							callback(null, JSON.stringify(result[0]));
+						}).catch(function(err) {
+							console.log(err);
+							callback(err,null);
+						});
+			}).catch(function(err){
+				console.log(err);
+				callback(err, null);
+			});
+		} else {
+			callback(null, null);
+		}
+	});
+}
 function getMessages(request, callback){
 	var sql = require('mssql');
 	var body = "";
@@ -228,17 +307,17 @@ function getMessages(request, callback){
 						 .input('user2', pBody.user2)
 						 .execute('getMessages').then(function(result) {
 							console.log("Messages Retrieved!");
-							callback(0);
+							console.log(result[0]);
+							callback(null, JSON.stringify(result[0]));
 						}).catch(function(err) {
 							console.log(err);
-							callback(1);
+							callback(err, null);
 						});
 			}).catch(function(err){
-				console.log(err);
-				callback(1);
+				callback(err,null);
 			});
 		} else {
-			callback(1);
+			callback(null,null);
 		}
 	});
 }

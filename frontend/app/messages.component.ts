@@ -30,8 +30,10 @@ export class MessagesComponent{
 
     ngOnInit(){
         this.owner = userLoggined();
-        this._massegeService.getUsersConnectWith(this.owner).subscribe(users =>
-            this.targets = users
+        this._massegeService.getUsersConnectWith(this.owner).subscribe(users => {
+                console.log(users);
+                this.targets = users.map(user => user['sender']);
+            }
         );
         console.log(this.targets);
     }

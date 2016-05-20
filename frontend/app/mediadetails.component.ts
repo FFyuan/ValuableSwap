@@ -14,7 +14,7 @@ import {MessagePostComponent} from './messagepost.component';
         selector : 'mediadetails',
         template : `<div class="container-fluid" >
                 <ul *ngIf="media" class ="well" style="list-style-type: none; ">
-                    <li class = "list-item"><img src="https://www.cs.purdue.edu/homes/gwilkin/gwilkin-large.jpg" class="img-rounded" style="width: 100%"> </li>
+                    <li class = "list-item" style="width: 500px"><img src="https://www.cs.purdue.edu/homes/gwilkin/gwilkin-large.jpg" class="img-rounded" style="width: 100%"> </li>
                     <li class = "list-item">User : {{media.username}}</li>
                     <li class = "list-item">Category: {{media.category}}</li>
                     <li class = "list-item">Genre:{{media.genre}}</li>
@@ -25,11 +25,11 @@ import {MessagePostComponent} from './messagepost.component';
                     <li *ngIf="media.category.includes('Book')" class = "list-item">Author:{{media.author}}</li>
                     <li *ngIf="media.category.includes('Game')" class = "list-item">Game Console:{{media.game_system}}</li>
                     <li *ngIf="media.category.includes('Movie')" class = "list-item">Movie System:{{media.movie_system}}</li>
-                <div class="row">
-                <button class="col-md-offset-10 col-md-2 btn btn-default" (click)="addWishlist()">Add to Wishlist</button>
+                <div class="row" *ngIf="owner">
+                <button class="btn btn-default" style="float: right;  " (click)="addWishlist()">Add to Wishlist</button>
                 </div>
                 </ul>
-                <message-post *ngIf="media" [target]="media.username" [owner]="owner"></message-post>
+                <message-post *ngIf="media && owner" [target]="media.username" [owner]="owner"></message-post>
                 </div>`,
         directives : [MessagePostComponent]
 
