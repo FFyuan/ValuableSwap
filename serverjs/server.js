@@ -150,7 +150,6 @@ http.createServer(function(request, response){
 			console.log(jRes);
 			response.end(jRes);
 		});
-<<<<<<< HEAD
 	}else if(url == '/uploadimage'){
 		uploadImage(request, function(err, result){
 			if(err) throw err;
@@ -162,16 +161,22 @@ http.createServer(function(request, response){
 		getImage(request, function(err, result){
 			if(err) throw err;
 			response.writeHead(200, {'Content-Type' : 'image/jpeg'});
-=======
 	} else if(url == '/userconnections'){
 		getUsersConnection(request, function(err,result){
 			if(err) throw err;
 			response.writeHead(200, {'Content-Type' : 'application/json'});
->>>>>>> origin/master
 			console.log(result);
 			response.end(result);
 		});
-	}else{
+	}else if(url == '/tradehistory'){
+		getTradeHistory(request, function(err, result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'application/json'});
+			console.log(result);
+			response.end(result);
+		});
+	}
+	else{
 		response.write("404 NOT FOUND");
 		response.end();
 	}
@@ -450,6 +455,30 @@ function addWishlist(request, callback){
 		}
 	});
 
+}function getTradeHistory(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data',function(chunk){
+		body += chunk.toString();
+	});
+	request.on('end', function(){
+		var pBody;
+		if(body != ""){
+			pBody = JSON.parse(body, function(k,v){return v;});
+			console.log(pBody);
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+		    // Query
+				new sql.Request().query('select * from Trade where user1=\''+pBody.user+'\'' + 'OR user2=\''+pBody.user+'\'').then(function(result) {
+					console.log('Trade History success');
+					json = JSON.stringify(result);
+					callback(null, json);
+				}).catch(function(err) {
+					console.log('Trade history failed');	
+					console.log(err);
+  				});
+			});
+		}
+	});
 }
 function getHasMedia(request, callback){
 	var sql = require('mssql');
