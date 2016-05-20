@@ -33,26 +33,20 @@ export class MessageListComponent{
     showDetail : boolean = false;
 
     constructor(private _messageService : MessageService){
-        setInterval(() => this.update(null), 1000);
+        //setInterval(() => this.update(null), 1000);
     }
 
 
     onClick(){
+        if(this.showDetail==false){
+            this.update(null);
+        }
         this.showDetail = !this.showDetail;
     }
 
     ngOnInit(){
         this.owner = userLoggined();
-        this._messageService.getMessagesfromUsers(this.owner, this.target).subscribe(messages => {
-            this.messages = messages;
-            this.messages.sort((m1, m2)=> {
-                    if(m1.time.valueOf() > m2.time.valueOf()){
-                        return 1;
-                    }else{
-                        return 0;
-                    }
-                });
-        });
+
         console.log(this.messages);
     }
 

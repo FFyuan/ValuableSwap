@@ -177,7 +177,15 @@ http.createServer(function(request, response){
 			console.log(result);
 			response.end(result);
 		});
+	}else if(url == '/tradepending'){
+		getTradePending(request, function(err, result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'application/json'});
+			console.log(result);
+			response.end(result);
+		});
 	}
+
 	else{
 		response.write("404 NOT FOUND");
 		response.end();
@@ -232,9 +240,9 @@ function requestTrade(request, callback){
 				console.log("Connected to database");
 				new sql.Request().input('user1', pBody.user1)
 						 .input('user2', pBody.user2)
-						 .input('item_1', pBody.item1)
-						 .input('item_2', pBody.item2)
-						 .execute('tradeItem').then(function(result) {
+						 .input('item1', pBody.item_1)
+						 .input('item2', pBody.item_2)
+						 .execute('requestTrade').then(function(result) {
 							console.log("Trade Requested!");
 							callback(0);
 						}).catch(function(err) {
@@ -375,9 +383,10 @@ function getMediaById(request, callback){
 			console.log(pBody);
 			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
 		    // Query
-				new sql.Request().query('select * from getMedia where Media_id='+pBody.id).then(function(result) {
+				new sql.Request().input('id', pBody.id)
+						.execute('getMediaByid').then(function(result) {
 					console.log('Media fetch success');
-					json = JSON.stringify(result);
+					json = JSON.stringify(result[0]);
 					callback(null, json);
 				}).catch(function(err) {
 					console.log('Media fetch failed');	
@@ -457,7 +466,8 @@ function addWishlist(request, callback){
 		}
 	});
 
-}function getTradeHistory(request, callback){
+}
+function getTradePending(request, callback){
 	var sql = require('mssql');
 	var body = "";
 	request.on('data',function(chunk){
@@ -470,7 +480,35 @@ function addWishlist(request, callback){
 			console.log(pBody);
 			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
 		    // Query
-				new sql.Request().query('select * from Trade where user1=\''+pBody.user+'\'' + 'OR user2=\''+pBody.user+'\'').then(function(result) {
+				new sql.Request().query('select * from Trade where (user_1=\''+pBody.user+'\'' + 'OR user_2=\''+pBody.user+'\') AND confirm=0').then(function(result) {
+					console.log('Trade Pending success');
+					json = JSON.stringify(result);
+					callback(null, json);
+				}).catch(function(err) {
+					console.log('Trade Pending failed');	
+					console.log(err);
+  				});
+			}).catch(function(err){
+				console.log(err);
+				callback(err,null);
+			});
+		}
+	});
+}
+function getTradeHistory(request, callback){
+	var sql = require('mssql');
+	var body = "";
+	request.on('data',function(chunk){
+		body += chunk.toString();
+	});
+	request.on('end', function(){
+		var pBody;
+		if(body != ""){
+			pBody = JSON.parse(body, function(k,v){return v;});
+			console.log(pBody);
+			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+		    // Query
+				new sql.Request().query('select * from Trade where (user_1=\''+pBody.user+'\'' + 'OR user_2=\''+pBody.user+'\') AND confirm=1').then(function(result) {
 					console.log('Trade History success');
 					json = JSON.stringify(result);
 					callback(null, json);

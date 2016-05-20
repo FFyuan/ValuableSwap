@@ -11,12 +11,14 @@ import {WishlistComponent} from './wishlist.component';
 import {RepositoryComponent} from './repository.component';
 import {MediaDetailComponent} from './mediadetails.component';
 import {MessagesComponent} from './messages.component';
-
+import {TradeService} from './trade.service';
+import {TradeRequestsComponent} from './traderequests.component';
+import {HistoryComponent} from './history';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    providers : [ROUTER_PROVIDERS, MediaService, Authentication, MessageService],
+    providers : [ROUTER_PROVIDERS, MediaService, Authentication, MessageService, TradeService],
     directives : [ROUTER_DIRECTIVES]
 })
 
@@ -52,6 +54,15 @@ import {MessagesComponent} from './messages.component';
         path : '/mediadetails/:id',
         name : 'MediaDetails',
         component : MediaDetailComponent
+    },
+    {
+        path : '/traderequests',
+        name : 'TradeRequests',
+        component : TradeRequestsComponent
+    },{
+        path : '/history',
+        name : 'History',
+        component : HistoryComponent
     }
 ])
 

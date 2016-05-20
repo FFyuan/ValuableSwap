@@ -12,7 +12,7 @@ import {MediaComponent} from './media.component';
     selector : 'media-list',
     template : `<div class="container-fluid">
                     <div *ngFor = '#media of medias'>
-                        <media [media]="media"></media>
+                        <media style="float : right; width : 300px;" [media]="media"></media>
                     </div>
                 </div>
     `,
