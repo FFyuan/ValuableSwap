@@ -67,7 +67,10 @@ export class AppComponent {
     onSignedOut(){
         console.log("logging out");
         this._auth.logout().subscribe(
-            () => window.location.reload()
+            () => {
+                this.router.navigate(['Home']);
+                window.location.reload()
+            }
         );
     }
 }
