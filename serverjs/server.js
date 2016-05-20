@@ -1,8 +1,10 @@
 var http = require("http");
+	fs = require('fs');
+	imagedir = './image';
 
 http.createServer(function(request, response){
 	var url = request.url;
-	console.log("Requesting url:" + url);	
+	console.log("Requesting url:" + url);
 	if(url == '/media'){
 		getMedia(function(err, result){
 			if(err) throw err;
@@ -89,7 +91,20 @@ http.createServer(function(request, response){
 			console.log(jRes);
 			response.end(jRes);
 		});
-
+	}else if(url == '/uploadimage'){
+		uploadImage(request, function(err, result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'image/jpeg'});
+			console.log(result);
+			response.end(result);
+		});
+	}else if(url == '/getimage'){
+		getImage(request, function(err, result){
+			if(err) throw err;
+			response.writeHead(200, {'Content-Type' : 'image/jpeg'});
+			console.log(result);
+			response.end(result);
+		});
 	}
 	else if(url == '/messages'){
 		getMessages(request, function(err){
@@ -250,6 +265,7 @@ function getMedia(callback){
 		new sql.Request().query('select * from getMedia').then(function(result) {
 			console.log('Media fetch success');
 			json = JSON.stringify(result);
+			console.log(json);
 			callback(null, json);
 		}).catch(function(err) {
 			console.log('Media fetch failed');	
@@ -480,3 +496,99 @@ function login(request,callback){
 		}
 	});
 }
+
+
+function getImage(request, callback){
+	var sql = require('mssql');
+	var body = "";
+
+	//request.on('data', function(chunk) {
+	//	body += chunk.toString();
+	//});
+
+	//var pbody = JSON.parse(body,function(k,v){ return v;});
+	var testjson = [{"media_id":"11111111"}];
+	var mID = testjson[0]['media_id'];
+
+	sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+		// Query
+
+		new sql.Request().query('select img_path from Media Where media_id = \''+mID+'\'').then(function(result) {
+			console.log(result);
+			var imgpath = result[0]['img_path'];
+			var img = fs.readFileSync(imgpath);
+			//console.log(img);
+
+			//return only image
+			callback(null, img);
+
+
+			//return a json with media_id and image
+			/*
+			var Base64img =  new Buffer(img, 'binary').toString('base64');	//encode in base64 to fit in the json
+			var returnjs = [{"media_id": mID, "image": Base64img }];
+			callback(null, returnjs);
+			//var decodeimg = new Buffer(testjs[0]['image'], 'base64').toString('binary'); //docode in the frontend
+			*/
+		}).catch(function(err) {
+			console.log('Image fetch failed');
+			console.log(err);
+		});
+	}).catch(function(err) {
+		// ... connect error checks
+	});
+}
+
+
+function uploadImage(request, callback){
+
+	var image = "";
+	request.setEncoding('binary');
+
+	//read image(base64) from frontend
+	/*
+	request.on('data', function(chunk) {
+		image += chunk;
+	});
+	*/
+
+	//read an image from local disk for testing since we do not have front-end part yet
+	var img = fs.readFileSync('./test.jpg');
+
+	var Base64img =  new Buffer(img, 'binary').toString('base64');
+	var testjs = [{"media_id":"11111111", "image": Base64img }];
+	var mID = testjs[0]['media_id'];
+	var image = new Buffer(testjs[0]['image'], 'base64').toString('binary');
+
+	var filename = mID + '.jpg';
+	var filesavepath = imagedir + '/'+ filename;
+	console.log(filesavepath);
+
+	request.on('end', function(){
+		fs.writeFile(filesavepath, image, 'binary', function(err){
+			if (err) throw err
+			console.log('image saved on disk');
+		})
+	});
+
+
+	var sql = require('mssql');
+	sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
+		// Query
+
+		new sql.Request().query('Update Media Set img_path = \''+filesavepath+'\' Where media_id = \''+mID+'\'').then(function(result) {
+			console.log(result);
+			//console.log(img);
+			var reply = 'image uploaded'
+			callback(null, reply);
+		}).catch(function(err) {
+			console.log('Image upload failed');
+			console.log(err);
+		});
+	}).catch(function(err) {
+		// ... connect error checks
+	});
+
+}
+
+
