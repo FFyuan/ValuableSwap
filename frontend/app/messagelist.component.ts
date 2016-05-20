@@ -19,7 +19,7 @@ import {MessagePostComponent} from './messagepost.component';
                     <div *ngFor = '#message of messages'>
                         <message [message]="message"></message>
                     </div>
-                    <message-post [target]="target" [owner]="owner"></message-post>
+                    <message-post [target]="target" [owner]="owner" (submitted)="update($event);"></message-post>
                 </li>
 
     `,
@@ -32,7 +32,10 @@ export class MessageListComponent{
     messages : Message[];
     showDetail : boolean = false;
 
-    constructor(private _messageService : MessageService){}
+    constructor(private _messageService : MessageService){
+        setInterval(() => this.update(null), 1000);
+    }
+
 
     onClick(){
         this.showDetail = !this.showDetail;
@@ -43,7 +46,7 @@ export class MessageListComponent{
         this._messageService.getMessagesfromUsers(this.owner, this.target).subscribe(messages => {
             this.messages = messages;
             this.messages.sort((m1, m2)=> {
-                    if(m1.time > m2.time){
+                    if(m1.time.valueOf() > m2.time.valueOf()){
                         return 1;
                     }else{
                         return 0;
@@ -51,5 +54,18 @@ export class MessageListComponent{
                 });
         });
         console.log(this.messages);
+    }
+
+    update(event){
+         this._messageService.getMessagesfromUsers(this.owner, this.target).subscribe(messages => {
+            this.messages = messages;
+            this.messages.sort((m1, m2)=> {
+                    if(m1.time.valueOf() > m2.time.valueOf()){
+                        return 1;
+                    }else{
+                        return 0;
+                    }
+                });
+        });
     }
 }
