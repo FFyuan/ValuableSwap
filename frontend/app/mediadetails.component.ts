@@ -15,7 +15,7 @@ import {TradeService} from './trade.service';
         selector : 'mediadetails',
         template : `<div class="container-fluid" >
                 <ul *ngIf="media" class ="well" style="list-style-type: none; ">
-                    <li class = "list-item"><img src="https://www.cs.purdue.edu/homes/gwilkin/gwilkin-large.jpg" class="img-rounded" style="width: 100%"> </li>
+                    <li class = "list-item"><img src="https://www.cs.purdue.edu/homes/gwilkin/gwilkin-large.jpg" class="img-rounded" style="width: 50%"> </li>
                     <li class = "list-item">User : {{media.username}}</li>
                     <li class = "list-item">Category: {{media.category}}</li>
                     <li class = "list-item">Genre:{{media.genre}}</li>

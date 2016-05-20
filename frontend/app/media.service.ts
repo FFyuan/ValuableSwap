@@ -27,12 +27,13 @@ export class MediaService{
                             return media.name.toLowerCase().includes(keyword) || media.genre.toLowerCase().includes(keyword);
                         }
                     } else {
-                        return media.category.toLowerCase().includes(keyword) ||
-                            media.name.toLowerCase().includes(keyword) ||
-                            media.genre.toLowerCase().includes(keyword) ||
-                            media.artist.toLowerCase().includes(keyword) ||
-                            media.music_type.toLowerCase().includes(keyword);
-
+                        let check = false;
+                        if(media.category) check = check || media.category.toLowerCase().includes(keyword);
+                        if(media.name) check = check || media.name.toLowerCase().includes(keyword);
+                        if(media.genre) check = check || media.genre.toLowerCase().includes(keyword);
+                        if(media.author) check = check || media.author.toLowerCase().includes(keyword);
+                        if(media.music_type) check = check || media.music_type.toLowerCase().includes(keyword);
+                        return check;
                     };
                 });
             });

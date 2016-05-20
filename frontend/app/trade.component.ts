@@ -68,7 +68,6 @@ import {Router} from 'angular2/router';
                         <div class="col-md-3">
                             <media [media]="item1"></media>
                         </div>
-                        <button class=" btn btn-default" type="submit" (click)="confirmTrade()">Confirm!</button>
                     </div>
                 </div>
                 <div *ngIf="trade && !detailed && trade.confirm" class="list-group-item" (click)="setDetailed()">
