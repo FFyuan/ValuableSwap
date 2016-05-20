@@ -150,7 +150,6 @@ http.createServer(function(request, response){
 			console.log(jRes);
 			response.end(jRes);
 		});
-<<<<<<< HEAD
 	}else if(url == '/uploadimage'){
 		uploadImage(request, function(err, result){
 			if(err) throw err;
@@ -162,12 +161,12 @@ http.createServer(function(request, response){
 		getImage(request, function(err, result){
 			if(err) throw err;
 			response.writeHead(200, {'Content-Type' : 'image/jpeg'});
-=======
+			response.end(result);
+		});
 	} else if(url == '/userconnections'){
 		getUsersConnection(request, function(err,result){
 			if(err) throw err;
 			response.writeHead(200, {'Content-Type' : 'application/json'});
->>>>>>> origin/master
 			console.log(result);
 			response.end(result);
 		});

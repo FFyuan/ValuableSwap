@@ -4,7 +4,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} from 'angular2/common';
 import {MessageService} from './message.service';
-
+import {Router} from 'angular2/router';
 
 @Component({
     selector : 'message-post',
@@ -31,7 +31,7 @@ export class MessagePostComponent{
 
     form : ControlGroup;
 
-    constructor(fb: FormBuilder, private _messageService : MessageService){
+    constructor(fb: FormBuilder, private _messageService : MessageService, private _router : Router){
         this.form = fb.group({
             message_text : ['', Validators.required]
         });
@@ -42,6 +42,7 @@ export class MessagePostComponent{
         this._messageService.sendMessage(this.owner, this.target, value.message_text).subscribe(
             (result : any) => {
                 console.log(result);
+                this._router.navigate(['Messages']);
                 window.location.reload();
             }
         );
