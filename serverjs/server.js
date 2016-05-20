@@ -161,6 +161,8 @@ http.createServer(function(request, response){
 		getImage(request, function(err, result){
 			if(err) throw err;
 			response.writeHead(200, {'Content-Type' : 'image/jpeg'});
+			response.end(result);
+		});
 	} else if(url == '/userconnections'){
 		getUsersConnection(request, function(err,result){
 			if(err) throw err;

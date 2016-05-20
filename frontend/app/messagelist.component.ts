@@ -40,9 +40,16 @@ export class MessageListComponent{
 
     ngOnInit(){
         this.owner = userLoggined();
-        this._messageService.getMessagesfromUsers(this.owner, this.target).subscribe(messages =>
-            this.messages = messages
-        );
+        this._messageService.getMessagesfromUsers(this.owner, this.target).subscribe(messages => {
+            this.messages = messages;
+            this.messages.sort((m1, m2)=> {
+                    if(m1.time > m2.time){
+                        return 1;
+                    }else{
+                        return 0;
+                    }
+                });
+        });
         console.log(this.messages);
     }
 }
