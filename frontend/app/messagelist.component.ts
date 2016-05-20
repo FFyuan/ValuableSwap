@@ -33,7 +33,7 @@ export class MessageListComponent{
     showDetail : boolean = false;
 
     constructor(private _messageService : MessageService){
-        //setInterval(() => this.update(null), 2000);
+        setInterval(() => this.update(null), 2000);
     }
 
 

@@ -33,6 +33,7 @@ export class MediaService{
                         if(media.genre) check = check || media.genre.toLowerCase().includes(keyword);
                         if(media.author) check = check || media.author.toLowerCase().includes(keyword);
                         if(media.music_type) check = check || media.music_type.toLowerCase().includes(keyword);
+                        if(media.username) check = check || media.username.toLowerCase().includes(keyword);
                         return check;
                     };
                 });
