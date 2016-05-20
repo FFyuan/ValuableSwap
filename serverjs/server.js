@@ -554,7 +554,7 @@ function uploadImage(request, callback){
 	 */
 
 	//read an image from local disk for testing since we do not have front-end part yet
-	var img = fs.readFileSync('./test.jpg');
+	var img = fs.readFileSync('./icon.jpg');
 
 	var Base64img =  new Buffer(img, 'binary').toString('base64');
 	var testjs = [{"media_id":"11111111", "image": Base64img }];
