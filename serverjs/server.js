@@ -1,6 +1,4 @@
 var http = require("http");
-	fs = require('fs');
-//	imagedir = './image';
 
 function returnCallback(response, err, result){
 	if(err){
