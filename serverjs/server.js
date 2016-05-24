@@ -1,192 +1,54 @@
 var http = require("http");
 	fs = require('fs');
-	imagedir = './image';
+//	imagedir = './image';
+
+function returnCallback(response, err, result){
+	if(err){
+		console.log(err);
+	}
+	if(!result){result = {success : "true"};} 
+	response.writeHead(200, {'Content-Type' : 'application/json'});
+	console.log(result);
+	response.end(result);
+};
+
+
 
 
 http.createServer(function(request, response){
 	var url = request.url;
 	console.log("Requesting url:" + url);	
 	if(url == '/media'){
-		getMedia(function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			response.end(result);
-		});
+		getMedia(request, response, returnCallback);
 	} else if(url == '/auth/login'){
-		login(request, function(err, user){
-			if(user){
-				var res = JSON.stringify(user);
-				response.writeHead(200, {
-					'Content-Type' : 'application/json'
-				});
-				console.log('User:', user.token, ' logged in');
-				response.end(res);
-			} else {
-				response.end();
-			}
-		});
-	}else if(url == '/auth/logout'){
-
+		login(request, response, returnCallback);
 	} else if(url == '/auth/register'){
-		registration(request, function(err){
-			var result;
-			if (err==0){
-				result = {success : "true"};
-			}else{
-				result = {success : "false"};
-			}
-			var jRes = JSON.stringify(result);
-			response.writeHead(200, {
-				'Content-Type' : 'application/json'
-			});
-			response.end(jRes);
-		});
+		registration(request, response, returnCallback);
 	} else if(url == '/has'){
-		getHasMedia(request, function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
-		});
+		getHasMedia(request, response, returnCallback);
 	}else if(url == '/want'){
-		getWantMedia(request, function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
-		});
+		getWantMedia(request, response, returnCallback);
 	}else if(url == '/id'){
-		getMediaById(request, function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
-		});
+		getMediaById(request, response, returnCallback);	
 	}else if(url == '/post'){
-		postMedia(request, function(err){
-			var result;
-			if (err==0){
-				result = {success : "true"};
-			}else{
-				result = {success : "false"};
-			}
-			var jRes = JSON.stringify(result);
-			response.writeHead(200, {
-				'Content-Type' : 'application/json'
-			});
-			console.log(jRes);
-			response.end(jRes);
-		});
+		postMedia(request, response, returnCallback);
 	}else if(url == '/addWishlist'){
-		addWishlist(request, function(err){
-			var result;
-			if (err==0){
-				result = {success : "true"};
-			}else{
-				result = {success : "false"};
-			}
-			var jRes = JSON.stringify(result);
-			response.writeHead(200, {
-				'Content-Type' : 'application/json'
-			});
-			console.log(jRes);
-			response.end(jRes);
-		});
-
-	}
-	else if(url == '/messages'){
-		getMessages(request, function(err,result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
-		});
+		addWishlist(request, response, returnCallback);
+	}else if(url == '/messages'){
+		getMessages(request, response, returnCallback);
 	}else if (url == '/requesttrade'){
-		requestTrade(request, function(err){
-			var result;
-			if (err==0){
-				result = {success : "true"};
-			}else{
-				result = {success : "false"};
-			}
-			var jRes = JSON.stringify(result);
-			response.writeHead(200, {
-				'Content-Type' : 'application/json'
-			});
-			console.log(jRes);
-			response.end(jRes);
-		});
-
+		requestTrade(request, response, returnCallback); 
 	}else if (url == '/confirmtrade'){
-		confirmTrade(request, function(err){
-			var result;
-			if (err==0){
-				result = {success : "true"};
-			}else{
-				result = {success : "false"};
-			}
-			var jRes = JSON.stringify(result);
-			response.writeHead(200, {
-				'Content-Type' : 'application/json'
-			});
-			console.log(jRes);
-			response.end(jRes);
-		});
-
-	}
-
-	else if(url == '/sendmessage'){
-		sendMessage(request, function(err){
-			var result;
-			if (err==0){
-				result = {success : "true"};
-			}else{
-				result = {success : "false"};
-			}
-			var jRes = JSON.stringify(result);
-			response.writeHead(200, {
-				'Content-Type' : 'application/json'
-			});
-			console.log(jRes);
-			response.end(jRes);
-		});
-	}else if(url == '/uploadimage'){
-		uploadImage(request, function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'image/jpeg'});
-			console.log(result);
-			response.end(result);
-		});
-	}else if(url == '/getimage'){
-		getImage(request, function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'image/jpeg'});
-			response.end(result);
-		});
+		confirmTrade(request, response, returnCallback);
+	}else if(url == '/sendmessage'){
+		sendMessage(request, resposne, returnCallback);	
 	} else if(url == '/userconnections'){
-		getUsersConnection(request, function(err,result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
-		});
-	}else if(url == '/tradehistory'){
-		getTradeHistory(request, function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
-		});
+		getUsersConnection(request, response, returnCallback);
+	} else if(url == '/tradehistory'){
+		getTradeHistory(request, response, returnCallback);
 	}else if(url == '/tradepending'){
-		getTradePending(request, function(err, result){
-			if(err) throw err;
-			response.writeHead(200, {'Content-Type' : 'application/json'});
-			console.log(result);
-			response.end(result);
-		});
-	}
-
-	else{
+		getTradePending(request, response, returnCallback);
+	}else{
 		response.write("404 NOT FOUND");
 		response.end();
 	}
@@ -194,222 +56,179 @@ http.createServer(function(request, response){
 
 }).listen(5000);
 
-function confirmTrade(request, callback){
-	var sql = require('mssql');
+function parse(request, callback){
 	var body = "";
 	request.on('data', function(chunk){
 		body += chunk.toString()
 	});
 	request.on('end', function(){
+	 	console.log(body);	
 		var pBody;
 		if (body != "") {
 			pBody = JSON.parse(body, function(k,v){ return v;});
-			console.log("Trade: " + pBody.tradeId + " is wanting to be confirmed");
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
-				new sql.Request().input('Trade_id', pBody.tradeId)
-						 .execute('confirmTrade').then(function(result) {
-							console.log("Trade Confirmed!");
-							callback(0);
-						}).catch(function(err) {
-							console.log(err);
-							callback(1);
-						});
-			}).catch(function(err){
-				console.log(err);
-				callback(1);
-			});
+			console.log("Request body parsed as", pBody);
+			callback(pBody);
 		} else {
-			callback(1);
-		}
+			callback({});
+		};
 	});
 }
 
-function requestTrade(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk){
-		body += chunk.toString()
-	});
-	request.on('end', function(){
-		var pBody;
-		if (body != "") {
-			pBody = JSON.parse(body, function(k,v){ return v;});
-			console.log("User: " + pBody.user1 + " and User: " + pBody.user2 + " is trading with items + ", pBody.item1, pBody.item2);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+var sql = require('mssql');
+function connection(callback){
+	sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps")
+		.then(function() {
+			console.log("Connected to database");
+			callback();
+		}).catch(function(err) {
+			console.log("Connected to database failed");
+			console.log(err);
+		});
+}
+	
+
+function confirmTrade(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
+				new sql.Request().input('Trade_id', pBody.tradeId)
+						 .execute('confirmTrade')
+						 .then(function(result) {
+							console.log("Trade Confirmed!");
+							callback(response, null, null);
+						}).catch(function(err) {
+							callback(response, err, null);
+						});
+			});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
+}
+	
+
+function requestTrade(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('user1', pBody.user1)
 						 .input('user2', pBody.user2)
 						 .input('item1', pBody.item_1)
 						 .input('item2', pBody.item_2)
 						 .execute('requestTrade').then(function(result) {
 							console.log("Trade Requested!");
-							callback(0);
+							callback(response, null, null);
 						}).catch(function(err) {
-							console.log(err);
-							callback(1);
+							callback(response, err, null);
 						});
-			}).catch(function(err){
-				console.log(err);
-				callback(1);
 			});
-		} else {
-			callback(1);
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
-function sendMessage(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk){
-		body += chunk.toString()
-	});
-	request.on('end', function(){
-		var pBody;
-		if (body != "") {
-			pBody = JSON.parse(body, function(k,v){ return v;});
-			console.log("Name:", pBody.User1, " is wanting to send a message");
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+
+function sendMessage(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('sender', pBody.sender)
 						 .input('receiver', pBody.receiver)
 						 .input('message_text', pBody.text)
 						 .execute('sendMessage').then(function(result) {
 							console.log("Message Sent!");
-							callback(0);
+							callback(response, null, null);
 						}).catch(function(err) {
-							console.log(err);
-							callback(1);
+							callback(response, err, null);
 						});
-			}).catch(function(err){
-				console.log(err);
-				callback(1);
 			});
-		} else {
-			callback(1);
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
 
-function getUsersConnection(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk){
-		body += chunk.toString()
-	});
-	request.on('end', function(){
-		var pBody;
-		if (body != "") {
-			pBody = JSON.parse(body, function(k,v){ return v;});
-			console.log("Name:", pBody.user, " is wanting connection list");
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+function getUsersConnection(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('User', pBody.user)
 						 .execute('userConnections').then(function(result) {
 							console.log("Connections Retrieved!");
 							console.log(result[0]);
-							callback(null, JSON.stringify(result[0]));
+							callback(response, null, JSON.stringify(result[0]));
 						}).catch(function(err) {
-							console.log(err);
-							callback(err,null);
+							callback(response, err, null);
 						});
-			}).catch(function(err){
-				console.log(err);
-				callback(err, null);
 			});
-		} else {
-			callback(null, null);
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
-function getMessages(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk){
-		body += chunk.toString()
-	});
-	request.on('end', function(){
-		var pBody;
-		if (body != "") {
-			pBody = JSON.parse(body, function(k,v){ return v;});
-			console.log("Name:", pBody.User1, " is wanting to send a message");
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+
+function getMessages(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('user1', pBody.user1)
 						 .input('user2', pBody.user2)
 						 .execute('getMessages').then(function(result) {
 							console.log("Messages Retrieved!");
 							console.log(result[0]);
-							callback(null, JSON.stringify(result[0]));
+							callback(response, null, JSON.stringify(result[0]));
 						}).catch(function(err) {
-							console.log(err);
-							callback(err, null);
+							callback(response, err, null);
 						});
-			}).catch(function(err){
-				callback(err,null);
 			});
-		} else {
-			callback(null,null);
-		}
-	});
-}
-function getMedia(callback){
-	var sql = require('mssql');
-	var json = '';
-	sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		    // Query
-		new sql.Request().query('select * from getMedia').then(function(result) {
-			console.log('Media fetch success');
-			json = JSON.stringify(result);
-			callback(null, json);
-		}).catch(function(err) {
-			console.log('Media fetch failed');	
-			console.log(err);
-  		});
-	}).catch(function(err) {
-		    // ... connect error checks
-	});
-};
-function getMediaById(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data',function(chunk){
-		body += chunk.toString();
-	});
-	request.on('end', function(){
-		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log(pBody);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		    // Query
-				new sql.Request().input('id', pBody.id)
-						.execute('getMediaByid').then(function(result) {
-					console.log('Media fetch success');
-					json = JSON.stringify(result[0]);
-					callback(null, json);
-				}).catch(function(err) {
-					console.log('Media fetch failed');	
-					console.log(err);
-  				});
-			});
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
 
-function postMedia(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk){
-		body += chunk.toString();
-	});
-	request.on('end', function(){
-		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log(pBody);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+function getMedia(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
+				new sql.Request().query('select * from getMedia')
+					.then(function(result) {
+						console.log('Media fetch success');
+						var json = JSON.stringify(result);
+						callback(response, null, json);
+					}).catch(function(err) {
+						callback(response, err, null);
+					});
+			});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
+}
+
+function getMediaById(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
+				new sql.Request().input('id', pBody.id)
+						.execute('getMediaByid').then(function(result) {
+					console.log('Media fetch by Id success');
+					json = JSON.stringify(result[0]);
+					callback(response, null, json);
+				}).catch(function(err) {
+					callback(response, err, null);
+				});
+			});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
+}
+
+function postMedia(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('UserName', pBody.UserName)
 						 .input('Name', pBody.Name)
 						 .input('Genre', pBody.Genre)
@@ -419,323 +238,152 @@ function postMedia(request, callback){
 						 .input('System', pBody.System)
 						 .input('Type_of_Media', pBody.Type_of_Media)
 						 .execute('addMedia').then(function(result) {
-							console.log("Item :", pBody.Name, " has been added to the database");
-							callback(0);
-						}).catch(function(err) {
-							console.log(err);
-							callbakc(1);
-						});
-			}).catch(function(err){
-				console.log(err);
-				callback(1);
+					console.log("Item :", pBody.Name, " has been added to the database");
+					callback(response, null, null);
+				}).catch(function(err) {
+					callback(response, err, null);
+				});
 			});
-		} else {
-			callback(1);
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
 
-function addWishlist(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk){
-		body += chunk.toString();
-	});
-	request.on('end', function(){
-		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log("Parsed Data: " ,pBody);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+function addWishlist(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('username', pBody.UserName)
 						 .input('item_id', pBody.Media_Id)
 						 .execute('addWantList').then(function(result) {
-							console.log("Item :", pBody.Media_Id, " has been added to the wishlist");
-							callback(0);
-						}).catch(function(err) {
-							console.log(err);
-							callbakc(1);
-						});
-			}).catch(function(err){
-				console.log(err);
-				callback(1);
+					console.log("Item :", pBody.Media_Id, " has been added to the wishlist");
+					callback(response, null, null);
+				}).catch(function(err) {
+					callback(response, err, null);
+				});
 			});
-		} else {
-			callback(1);
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
+}
 
-}
-function getTradePending(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data',function(chunk){
-		body += chunk.toString();
-	});
-	request.on('end', function(){
-		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log(pBody);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		    // Query
-				new sql.Request().query('select * from Trade where (user_1=\''+pBody.user+'\'' + 'OR user_2=\''+pBody.user+'\') AND confirm=0').then(function(result) {
-					console.log('Trade Pending success');
-					json = JSON.stringify(result);
-					callback(null, json);
+function getTradePending(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
+				new sql.Request().input('USER', pBody.user)
+						 .execute('getTradePending').then(function(result) {
+					console.log("Trade Pending success");
+					callback(response, null, JSON.stringify(result[0]));
 				}).catch(function(err) {
-					console.log('Trade Pending failed');	
-					console.log(err);
-  				});
-			}).catch(function(err){
-				console.log(err);
-				callback(err,null);
+					callback(response, err, null);
+				});
 			});
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
-function getTradeHistory(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data',function(chunk){
-		body += chunk.toString();
-	});
-	request.on('end', function(){
-		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log(pBody);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		    // Query
-				new sql.Request().query('select * from Trade where (user_1=\''+pBody.user+'\'' + 'OR user_2=\''+pBody.user+'\') AND confirm=1').then(function(result) {
-					console.log('Trade History success');
-					json = JSON.stringify(result);
-					callback(null, json);
+
+function getTradeHistory(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
+				new sql.Request().input('USER', pBody.user)
+						 .execute('getTradeHistory').then(function(result) {
+					console.log("Trade History success");
+					callback(response, null, JSON.stringify(result[0]));
 				}).catch(function(err) {
-					console.log('Trade history failed');	
-					console.log(err);
-  				});
+					callback(response, err, null);
+				});
 			});
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
-function getHasMedia(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data',function(chunk){
-		body += chunk.toString();
-	});
-	request.on('end', function(){
-		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log(pBody);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		    // Query
-				new sql.Request().query('select * from getUserMedia where username =\''+pBody.user+'\'').then(function(result) {
+
+function getHasMedia(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
+				new sql.Request().input('USER', pBody.user)
+						 .execute('getUserHas').then(function(result) {
 					console.log('User Media fetch success');
-					json = JSON.stringify(result);
-					callback(null, json);
+					callback(response, null, JSON.stringify(result[0]));
 				}).catch(function(err) {
-					console.log('User Media fetch failed');	
-					console.log(err);
-  				});
+					callback(response, err, null);
+				});
 			});
-		}
-	});
-}
-function getWantMedia(request, callback){
-
-	var sql = require('mssql');
-	var body = "";
-	request.on('data',function(chunk){
-		body += chunk.toString();
-	});
-	request.on('end', function(){
-		var pBody;
-		if(body != ""){
-			pBody = JSON.parse(body, function(k,v){return v;});
-			console.log(pBody);
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		    // Query
-				new sql.Request().query('select * from getUserWants where username =\''+pBody.user+'\'').then(function(result) {
-					console.log('Wish List success');
-					json = JSON.stringify(result);
-					callback(null, json);
-				}).catch(function(err) {
-					console.log('Wish List failed');	
-					console.log(err);
-  				});
-			});
-		}
-	});
-
-
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
 
-function registration(request, callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk){
-		body += chunk.toString()
-	});
-	request.on('end', function(){
-		var pBody;
-		if (body != "") {
-			pBody = JSON.parse(body, function(k,v){ return v;});
-			console.log("Name:", pBody.UserName, " is wanting to register");
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+function getWantMedia(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
+				new sql.Request().input('USER', pBody.user)
+						 .execute('getUserWant').then(function(result) {
+					console.log('Wishlist fetch success');
+					callback(response, null, JSON.stringify(result[0]));
+				}).catch(function(err) {
+					callback(response, err, null);
+				});
+			});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
+}
+
+function registration(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('Name', pBody.Name)
 						 .input('Email', pBody.Email)
 						 .input('Password', pBody.Password)
 						 .input('UserName', pBody.UserName)
 						 .execute('addUser').then(function(result) {
-							console.log("User: ",pBody.UserName, "Registration Successful in Database!");
-							callback(0);
-						}).catch(function(err) {
-							console.log(err);
-							callbakc(1);
-						});
-			}).catch(function(err){
-				console.log(err);
-				callback(1);
+					console.log("User: ",pBody.UserName, "Registration Successful in Database!");
+					callback(response, null, null);
+				}).catch(function(err) {
+					callback(response, err, null);
+				});
 			});
-		} else {
-			callback(1);
-		}
-	});
+		});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
-
-					
-
-function login(request,callback){
-	var sql = require('mssql');
-	var body = "";
-	request.on('data', function(chunk) {
-		body += chunk.toString();	 
-        });     
-	request.on('end', function(){
-		var pBody 
-		if(body != "") {
-			var pBody = JSON.parse(body,function(k,v){ return v;});
-			console.log("User:", pBody.username, " is asking for credential");
-			
-			sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-				console.log("Connected to database");
+						
+function login(request, response, callback){
+	try{
+		parse(request, function(pBody){
+			connection(function(){
 				new sql.Request().input('username', pBody.username)
 						 .input('password', pBody.password)
 					    	 .execute('LoginChecker').then(function(result) {
-							 var exists = result[0][0].UserExists;
-							 if(exists == "true"){
-								 console.log("Login Success!");
-								 callback(0, {token : pBody.username});
-							 }else{
-								 console.log("Login Failed");
-								 callback(1, null);
-							 }
-						  }).catch(function(err) {
-							  console.log(err);
-						  });
-			}).catch(function(err) {
+					var exists = result[0][0].UserExists;
+					if(exists == "true"){
+						console.log("Login Success!");
+						callback(response, null, JSON.stringify({token : pBody.username}));
+					}else{
+						console.log("Login Failed");
+						callback(response, null, {success : false});
+					}
+				}).catch(function(err) {
+					callback(response, err, null);
+				});
 			});
-		}else{
-			callback(1, {});
-		}
-	});
-}
-
-
-function getImage(request, callback){
-	var sql = require('mssql');
-	var body = "";
-
-	//request.on('data', function(chunk) {
-	//	body += chunk.toString();
-	//});
-
-	//var pbody = JSON.parse(body,function(k,v){ return v;});
-	var testjson = [{"media_id":"11111111"}];
-	var mID = testjson[0]['media_id'];
-
-	sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		// Query
-
-		new sql.Request().query('select img_path from Media Where media_id = \''+mID+'\'').then(function(result) {
-			console.log(result);
-			var imgpath = result[0]['img_path'];
-			var img = fs.readFileSync(imgpath);
-			//console.log(img);
-
-			//return only image
-			callback(null, img);
-
-
-			//return a json with media_id and image
-			/*
-			 var Base64img =  new Buffer(img, 'binary').toString('base64');	//encode in base64 to fit in the json
-			 var returnjs = [{"media_id": mID, "image": Base64img }];
-			 callback(null, returnjs);
-			 //var decodeimg = new Buffer(testjs[0]['image'], 'base64').toString('binary'); //docode in the frontend
-			 */
-		}).catch(function(err) {
-			console.log('Image fetch failed');
-			console.log(err);
 		});
-	}).catch(function(err) {
-		// ... connect error checks
-	});
+	} catch (err) {
+		callback(response, err, null);
+	}
 }
 
-
-function uploadImage(request, callback){
-
-	var image = "";
-	request.setEncoding('binary');
-
-	//read image(base64) from frontend
-	/*
-	 request.on('data', function(chunk) {
-	 image += chunk;
-	 });
-	 */
-
-	//read an image from local disk for testing since we do not have front-end part yet
-	var img = fs.readFileSync('./icon.jpg');
-
-	var Base64img =  new Buffer(img, 'binary').toString('base64');
-	var testjs = [{"media_id":"11111111", "image": Base64img }];
-	var mID = testjs[0]['media_id'];
-	var image = new Buffer(testjs[0]['image'], 'base64').toString('binary');
-
-	var filename = mID + '.jpg';
-	var filesavepath = imagedir + '/'+ filename;
-	console.log(filesavepath);
-
-	request.on('end', function(){
-		fs.writeFile(filesavepath, image, 'binary', function(err){
-			if (err) throw err
-			console.log('image saved on disk');
-		})
-	});
-
-
-	var sql = require('mssql');
-	sql.connect("mssql://reitersg:8506Circle@titan.csse.rose-hulman.edu/ValuableSwaps").then(function() {
-		// Query
-
-		new sql.Request().query('Update Media Set img_path = \''+filesavepath+'\' Where media_id = \''+mID+'\'').then(function(result) {
-			console.log(result);
-			//console.log(img);
-			var reply = 'image uploaded'
-			callback(null, reply);
-		}).catch(function(err) {
-			console.log('Image upload failed');
-			console.log(err);
-		});
-	}).catch(function(err) {
-		// ... connect error checks
-	});
-
-}

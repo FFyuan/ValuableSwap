@@ -18,11 +18,7 @@ export class Authentication {
          return this.http.post(this.serverUrl+ '/login', JSON.stringify({
             username: username,
             password: password
-         }), {
-         headers: new Headers({
-         'Content-Type': 'application/json'
-         })
-         }).map((res : any) => {
+         })).map((res : any) => {
             let data = res.json();
             this.token = data.token;
             localStorage.setItem('token', this.token);
@@ -42,9 +38,7 @@ export class Authentication {
             Name: Name,
             Email: Email,
             Password: Password
-        }), {
-            headers: new Headers({'Content-Type': 'application/json'})
-        }).map((res: any)=> {
+        })).map((res: any)=> {
             console.log(res);
             return res.json();
         });
